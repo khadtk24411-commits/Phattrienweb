@@ -1,161 +1,107 @@
+// Import dữ liệu
 import { PRICE_LIST, REPAIR_TIME, WARRANTY } from "../data/priceData.js";
 import { CENTER_INFO, RESELL_PERCENT } from "../data/centerData.js";
 import { getDeviceCategory, matchIssuePattern, ISSUE_PATTERNS } from "../data/issuePatterns.js";
+import { analyzeWithAI } from "./geminiClient.js";
 
-// Hàm chính: Chẩn đoán và đề xuất
-export function diagnoseDevice(deviceName, errorDescription) {
+// Hàm chính: Chẩn đoán và đề xuất (bắt buộc phải async để gọi AI)
+export async function diagnoseDevice(deviceName, errorDescription) {
+    console.log(`\n🔧 Đang chẩn đoán: ${deviceName}`);
+    console.log(`📝 Mô tả lỗi: ${errorDescription}`);
+    
     // Xác định loại thiết bị
     const category = getDeviceCategory(deviceName);
+    console.log(`📱 Loại thiết bị: ${category}`);
     
-    // Tìm mẫu lỗi phù hợp
-    const matchedIssue = matchIssuePattern(errorDescription);
+    // Gọi AI để phân tích
+    console.log('🤖 Đang gọi Gemini AI phân tích...');
+    const aiResult = await analyzeWithAI(deviceName, errorDescription);
     
-    // Tính giá sửa
-    let repairCost = getRepairPrice(category, matchedIssue.key, errorDescription);
+    let result;
     
-    // Xác định có sửa được không
-    const canRepair = checkRepairability(deviceName, matchedIssue.key);
-    
-    // Giải pháp sửa chữa
-    const repairSolution = getRepairSolution(matchedIssue.key, deviceName);
-    
-    // Thời gian sửa
-    const repairTimeDays = REPAIR_TIME[category] || REPAIR_TIME.default;
-    
-    // Bảo hành
-    const warrantyMonths = WARRANTY[category] || WARRANTY.default;
-    
-    // Giá bán lại sau sửa
-    const resellPrice = calculateResellPrice(deviceName, category, repairCost);
-    
-    // Đánh giá mức độ nghiêm trọng
-    const severity = matchedIssue.pattern.severity;
-    
-    // Kết quả trả về
-    const result = {
-        device_model: deviceName,
-        device_category: category,
-        detected_issues: extractIssues(errorDescription, matchedIssue.key),
-        severity: severity,
-        can_repair: canRepair,
-        repair_solution: repairSolution,
-        repair_cost: repairCost,
-        repair_time_days: repairTimeDays,
-        warranty_months: warrantyMonths,
-        resell_price_after_repair: resellPrice,
-        center_info: CENTER_INFO,
-        recommendation: getRecommendation(canRepair, severity, repairCost)
-    };
-    
-    // Nếu không sửa được
-    if (!canRepair) {
-        result.if_cannot_repair = {
-            reason: "Thiết bị hư hỏng nặng, phụ tùng không còn sản xuất",
-            ewaste_solution: "Thu gom và tái chế rác điện tử theo quy định",
-            recycle_value: Math.floor(repairCost * 0.2)
+    if (aiResult && aiResult.device_model) {
+        // Dùng kết quả từ AI
+        console.log('✅ Dùng kết quả từ AI');
+        
+        let repairCost = aiResult.repair_cost_estimate || 500000;
+        
+        // Kiểm tra trong bảng giá
+        const error = errorDescription.toLowerCase();
+        for (const [patternKey, price] of Object.entries(PRICE_LIST)) {
+            const [patternCategory, patternIssue] = patternKey.split(":");
+            if (patternCategory === category && error.includes(patternIssue)) {
+                repairCost = price;
+                break;
+            }
+        }
+        
+        // Xử lý đặc biệt cho bể màn hình
+        if (error.includes("bể màn hình") || error.includes("vỡ màn hình")) {
+            if (category === "iphone") repairCost = 1200000;
+            else if (category === "samsung") repairCost = 1100000;
+            else repairCost = 1000000;
+        }
+        
+        result = {
+            device_model: aiResult.device_model || deviceName,
+            device_category: category,
+            detected_issues: aiResult.detected_issues || ["Đang phân tích..."],
+            severity: aiResult.severity || "trung bình",
+            can_repair: aiResult.can_repair !== false,
+            repair_solution: aiResult.repair_solution || "Kiểm tra thực tế",
+            repair_cost: repairCost,
+            repair_time_days: aiResult.repair_time_days || REPAIR_TIME[category] || 2,
+            warranty_months: WARRANTY[category] || 6,
+            resell_price_after_repair: Math.floor(repairCost * 5 * 0.6),
+            center_info: CENTER_INFO,
+            recommendation: aiResult.recommendation || "Mang máy đến trung tâm để được kiểm tra miễn phí",
+            ai_used: true
+        };
+    } else {
+        // Fallback: dùng logic thủ công khi AI lỗi
+        console.log('⚠️ Dùng logic thủ công (AI không khả dụng)');
+        
+        let repairCost = 500000;
+        const error = errorDescription.toLowerCase();
+        
+        // Xử lý bể màn hình
+        if (error.includes("bể màn hình") || error.includes("vỡ màn hình")) {
+            if (category === "iphone") repairCost = 1200000;
+            else if (category === "samsung") repairCost = 1100000;
+            else repairCost = 1000000;
+        }
+        // Xử lý pin
+        else if (error.includes("pin") && (error.includes("yếu") || error.includes("nhanh hết"))) {
+            repairCost = 450000;
+        }
+        
+        const issues = [];
+        if (error.includes("bể màn hình") || error.includes("vỡ màn hình")) issues.push("Màn hình bị bể/vỡ");
+        if (error.includes("trầy") || error.includes("xước")) issues.push("Vỏ máy trầy xước");
+        if (error.includes("pin") && (error.includes("75") || error.includes("%"))) {
+            issues.push("Pin còn 75% (có thể cần thay nếu tụt nhanh)");
+        }
+        if (issues.length === 0) issues.push("Cần kiểm tra thực tế");
+        
+        result = {
+            device_model: deviceName,
+            device_category: category,
+            detected_issues: issues,
+            severity: "trung bình",
+            can_repair: true,
+            repair_solution: issues.length > 1 ? "Thay màn hình mới, vệ sinh máy, kiểm tra pin" : "Thay màn hình mới, vệ sinh máy",
+            repair_cost: repairCost,
+            repair_time_days: REPAIR_TIME[category] || 2,
+            warranty_months: WARRANTY[category] || 6,
+            resell_price_after_repair: Math.floor(repairCost * 5 * 0.6),
+            center_info: CENTER_INFO,
+            recommendation: "Mang máy đến trung tâm để được kiểm tra miễn phí và báo giá chính xác",
+            ai_used: false
         };
     }
     
+    console.log(`💰 Giá sửa: ${result.repair_cost.toLocaleString('vi-VN')}đ`);
+    console.log(`🤖 Sử dụng AI: ${result.ai_used ? 'CÓ' : 'KHÔNG'}`);
+    
     return result;
-}
-
-// Lấy giá sửa chữa
-function getRepairPrice(category, issueKey, errorDescription) {
-    // Tìm giá chính xác
-    let key = `${category}:${issueKey}`;
-    if (PRICE_LIST[key]) {
-        return PRICE_LIST[key];
-    }
-    
-    // Tìm theo từ khóa trong mô tả lỗi
-    const error = errorDescription.toLowerCase();
-    for (const [patternKey, price] of Object.entries(PRICE_LIST)) {
-        const [patternCategory, patternIssue] = patternKey.split(":");
-        if (patternCategory === category && error.includes(patternIssue)) {
-            return price;
-        }
-    }
-    
-    // Giá mặc định
-    return PRICE_LIST.default;
-}
-
-// Kiểm tra khả năng sửa chữa
-function checkRepairability(deviceName, issueKey) {
-    // Các trường hợp không thể sửa
-    const notRepairable = ["chay main", "ngam nuoc nang", "chip xu ly hong"];
-    
-    for (const keyword of notRepairable) {
-        if (deviceName.toLowerCase().includes(keyword)) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-// Lấy giải pháp sửa chữa
-function getRepairSolution(issueKey, deviceName) {
-    const pattern = ISSUE_PATTERNS[issueKey];
-    if (pattern) {
-        return pattern.solution;
-    }
-    return "Kiểm tra và tư vấn chi tiết sau khi nhận máy";
-}
-
-// Tính giá bán lại
-function calculateResellPrice(deviceName, category, repairCost) {
-    // Giả sử giá thiết bị mới ~ repairCost * 5
-    const newDevicePrice = repairCost * 5;
-    const percent = RESELL_PERCENT[category] || RESELL_PERCENT.default;
-    return Math.floor(newDevicePrice * percent);
-}
-
-// Trích xuất các lỗi từ mô tả
-function extractIssues(errorDescription, matchedKey) {
-    const issues = [];
-    
-    // Thêm lỗi chính
-    if (matchedKey !== "default") {
-        issues.push(ISSUE_PATTERNS[matchedKey].issues[0]);
-    }
-    
-    // Tìm thêm lỗi khác trong mô tả
-    const error = errorDescription.toLowerCase();
-    for (const [key, pattern] of Object.entries(ISSUE_PATTERNS)) {
-        if (key !== matchedKey && key !== "default") {
-            for (const keyword of pattern.issues) {
-                if (error.includes(keyword) && !issues.includes(keyword)) {
-                    issues.push(keyword);
-                    break;
-                }
-            }
-        }
-    }
-    
-    if (issues.length === 0) {
-        issues.push("Lỗi không xác định, cần kiểm tra thực tế");
-    }
-    
-    return issues;
-}
-
-// Đưa ra khuyến nghị
-function getRecommendation(canRepair, severity, repairCost) {
-    if (!canRepair) {
-        return "❌ Không thể sửa chữa, nên tái chế";
-    }
-    
-    if (severity === "nặng") {
-        if (repairCost > 1000000) {
-            return "⚠️ Chi phí sửa cao, cân nhắc mua máy mới";
-        }
-        return "🔧 Cần sửa ngay để tránh hư hỏng nặng hơn";
-    }
-    
-    if (severity === "trung bình") {
-        return "✅ Có thể sửa, nên sửa sớm để đảm bảo hoạt động tốt";
-    }
-    
-    return "✅ Sửa nhẹ, có thể sửa ngay hoặc sử dụng thêm";
 }
