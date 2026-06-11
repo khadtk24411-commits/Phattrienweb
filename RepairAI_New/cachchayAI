@@ -1,4 +1,4 @@
 cd C:\Users\PC\RepairAI_New
 npm install
-node server.js
+node server.sjs
 Mở trình duyệt chạy: http://localhost:3000
