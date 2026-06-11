@@ -3,26 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔧 Trung tâm Sửa chữa Điện tử ABC</title>
+    <title>🔧 Trung tâm Sửa chữa AI</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 800px; margin: 0 auto; }
         .card {
             background: white;
             border-radius: 20px;
@@ -30,41 +20,17 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        label {
-            display: block;
-            margin: 15px 0 5px 0;
-            font-weight: 600;
-            color: #555;
-        }
-
+        h1 { color: #333; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .subtitle { color: #666; margin-bottom: 30px; }
+        label { display: block; margin: 15px 0 5px 0; font-weight: 600; color: #555; }
         input, textarea, select {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: 0.3s;
         }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
+        input:focus, textarea:focus { outline: none; border-color: #667eea; }
         button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -77,80 +43,19 @@
             margin-right: 10px;
             transition: transform 0.2s;
         }
-
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        .result-card {
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .repairable {
-            background: #d4edda;
-            border-left: 5px solid #28a745;
-        }
-
-        .not-repairable {
-            background: #f8d7da;
-            border-left: 5px solid #dc3545;
-        }
-
-        .price {
-            font-size: 28px;
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .center-info {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .history-item {
-            border-bottom: 1px solid #eee;
-            padding: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .history-item:hover {
-            background: #f0f0f0;
-            transform: translateX(5px);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .badge-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .badge-danger {
-            background: #dc3545;
-            color: white;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            display: none;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
+        button:hover { transform: translateY(-2px); }
+        .result-card { border-radius: 15px; padding: 20px; margin-top: 20px; }
+        .repairable { background: #d4edda; border-left: 5px solid #28a745; }
+        .not-repairable { background: #f8d7da; border-left: 5px solid #dc3545; }
+        .price { font-size: 28px; color: #dc3545; font-weight: bold; }
+        .center-info { background: #e7f3ff; padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .history-item { border-bottom: 1px solid #eee; padding: 10px; cursor: pointer; }
+        .history-item:hover { background: #f0f0f0; transform: translateX(5px); }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; }
+        .badge-success { background: #28a745; color: white; }
+        .badge-danger { background: #dc3545; color: white; }
+        .loading { text-align: center; padding: 20px; display: none; }
+        .loading.active { display: block; }
         .spinner {
             border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
@@ -160,56 +65,30 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 10px;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        .tab-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            margin-top: 0;
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; margin-top: 0; background: #e0e0e0; color: #333; }
+        .tab-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .debug-info { background: #f0f0f0; padding: 10px; margin-top: 10px; font-size: 12px; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1>
-                <span>🔧</span>
-                Trung tâm Sửa chữa Điện tử ABC
-            </h1>
+            <h1><span>🔧</span> Trung tâm Sửa chữa Điện tử ABC</h1>
             <div class="subtitle">🤖 Hệ thống chẩn đoán thông minh - Báo giá nhanh - Bảo hành uy tín</div>
             
-            <!-- Tab buttons -->
             <div class="tab-buttons">
                 <button class="tab-btn active" onclick="switchTab('diagnose')">🔍 Chẩn đoán</button>
                 <button class="tab-btn" onclick="switchTab('price')">💰 Định giá bán</button>
                 <button class="tab-btn" onclick="switchTab('history')">📜 Lịch sử</button>
             </div>
             
-            <!-- Tab 1: Chẩn đoán -->
             <div id="diagnoseTab" class="tab-content active">
                 <label>📱 Tên thiết bị</label>
                 <input type="text" id="deviceName" placeholder="VD: iPhone 12, Samsung Galaxy S21, Laptop Dell...">
@@ -226,29 +105,24 @@
                 <button onclick="evaluateDevice()">🔍 Chẩn đoán & Báo giá</button>
             </div>
             
-            <!-- Tab 2: Định giá bán -->
             <div id="priceTab" class="tab-content">
                 <label>📱 Tên thiết bị</label>
                 <input type="text" id="priceDeviceName" placeholder="VD: iPhone 12, Samsung S21...">
-                
                 <label>📊 Tình trạng</label>
                 <select id="condition">
-                    <option value="như mới">Như mới (còn hộp, phụ kiện đầy đủ)</option>
-                    <option value="đẹp">Đẹp (ít xước, hoạt động tốt)</option>
-                    <option value="trầy xước">Trầy xước (có vết trầy nhẹ)</option>
-                    <option value="hư hỏng nhẹ">Hư hỏng nhẹ (cần sửa nhỏ)</option>
-                    <option value="hư hỏng nặng">Hư hỏng nặng (cần sửa nhiều)</option>
+                    <option value="như mới">Như mới</option>
+                    <option value="đẹp">Đẹp</option>
+                    <option value="trầy xước">Trầy xước</option>
+                    <option value="hư hỏng nhẹ">Hư hỏng nhẹ</option>
+                    <option value="hư hỏng nặng">Hư hỏng nặng</option>
                 </select>
-                
                 <button onclick="getPrice()">💰 Định giá</button>
             </div>
             
-            <!-- Tab 3: Lịch sử -->
             <div id="historyTab" class="tab-content">
                 <label>📞 Số điện thoại</label>
-                <input type="tel" id="historyPhone" placeholder="Nhập số điện thoại để tra cứu">
-                <button onclick="viewHistory()">📜 Tra cứu lịch sử</button>
-                <button onclick="clearHistory()" style="background: #dc3545;">🗑️ Xóa lịch sử</button>
+                <input type="tel" id="historyPhone" placeholder="Nhập số điện thoại">
+                <button onclick="viewHistory()">📜 Tra cứu</button>
             </div>
             
             <div class="loading" id="loading">
@@ -261,25 +135,13 @@
     </div>
 
     <script>
-        // Chuyển tab
         function switchTab(tab) {
-            // Ẩn tất cả tab
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            // Hiện tab được chọn
-            if (tab === 'diagnose') {
-                document.getElementById('diagnoseTab').classList.add('active');
-            } else if (tab === 'price') {
-                document.getElementById('priceTab').classList.add('active');
-            } else if (tab === 'history') {
-                document.getElementById('historyTab').classList.add('active');
-            }
-            
+            document.getElementById(tab + 'Tab').classList.add('active');
             event.target.classList.add('active');
         }
         
-        // Hàm chẩn đoán thiết bị
         async function evaluateDevice() {
             const deviceName = document.getElementById('deviceName').value;
             const errorDesc = document.getElementById('errorDesc').value;
@@ -287,7 +149,7 @@
             const customerPhone = document.getElementById('customerPhone').value;
             
             if (!deviceName || !errorDesc) {
-                alert('Vui lòng nhập tên thiết bị và mô tả lỗi');
+                alert('Vui lòng nhập đầy đủ thông tin');
                 return;
             }
             
@@ -307,11 +169,11 @@
                 });
                 
                 const result = await response.json();
+                console.log('Dữ liệu nhận từ server:', result);
                 
                 if (result.success && result.data) {
                     displayResult(result.data);
-                    // Lưu vào localStorage
-                    saveToHistory(result.data, customerName, customerPhone);
+                    saveToLocalHistory(result.data, customerName, customerPhone);
                 } else {
                     throw new Error(result.error || 'Không thể đánh giá');
                 }
@@ -320,7 +182,7 @@
                     <div class="result-card not-repairable">
                         <h3>❌ Lỗi</h3>
                         <p>${error.message}</p>
-                        <p>Vui lòng kiểm tra kết nối và thử lại!</p>
+                        <p>Vui lòng kiểm tra lại!</p>
                     </div>
                 `;
             } finally {
@@ -328,56 +190,72 @@
             }
         }
         
-        // Hiển thị kết quả
         function displayResult(data) {
-            if (data.can_repair) {
+            console.log('Hiển thị kết quả:', data);
+            
+            // Kiểm tra dữ liệu có hợp lệ không
+            if (!data) {
+                document.getElementById('result').innerHTML = `
+                    <div class="result-card not-repairable">
+                        <h3>❌ Lỗi dữ liệu</h3>
+                        <p>Không nhận được dữ liệu từ server</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            if (data.can_repair === true || data.can_repair === 1) {
+                // Trường hợp có thể sửa
                 let html = `
                     <div class="result-card repairable">
                         <h3>✅ KẾT QUẢ CHẨN ĐOÁN</h3>
-                        <p><strong>🔍 Model:</strong> ${data.device_model}</p>
-                        <p><strong>🐞 Lỗi phát hiện:</strong> ${data.detected_issues?.join(', ') || 'Đang phân tích'}</p>
-                        <p><strong>⚠️ Mức độ:</strong> ${data.severity}</p>
-                        <p><strong>🔧 Giải pháp:</strong> ${data.repair_solution}</p>
-                        <p><strong>💰 Chi phí sửa chữa:</strong> <span class="price">${data.repair_cost?.toLocaleString('vi-VN')} VNĐ</span></p>
-                        <p><strong>⏱️ Thời gian sửa:</strong> ${data.repair_time_days} ngày</p>
-                        <p><strong>🔒 Bảo hành:</strong> ${data.warranty_months} tháng</p>
-                        <p><strong>💵 Giá bán lại sau sửa:</strong> ${data.resell_price_after_repair?.toLocaleString('vi-VN')} VNĐ</p>
-                        <p><strong>🎯 Khuyến nghị:</strong> ${data.recommendation}</p>
+                        <p><strong>🔍 Model:</strong> ${data.device_model || 'Chưa xác định'}</p>
+                        <p><strong>🐞 Lỗi phát hiện:</strong> ${data.detected_issues ? data.detected_issues.join(', ') : 'Cần kiểm tra thực tế'}</p>
+                        <p><strong>⚠️ Mức độ:</strong> ${data.severity || 'Trung bình'}</p>
+                        <p><strong>🔧 Giải pháp:</strong> ${data.repair_solution || 'Mang máy đến trung tâm để kiểm tra'}</p>
+                        <p><strong>💰 Chi phí sửa chữa:</strong> <span class="price">${(data.repair_cost || 500000).toLocaleString('vi-VN')} VNĐ</span></p>
+                        <p><strong>⏱️ Thời gian sửa:</strong> ${data.repair_time_days || 2} ngày</p>
+                        <p><strong>🔒 Bảo hành:</strong> ${data.warranty_months || 6} tháng</p>
+                        <p><strong>💵 Giá bán lại sau sửa:</strong> ${(data.resell_price_after_repair || 0).toLocaleString('vi-VN')} VNĐ</p>
+                        <p><strong>🎯 Khuyến nghị:</strong> ${data.recommendation || 'Mang máy đến trung tâm để được tư vấn miễn phí'}</p>
                 `;
                 
                 if (data.center_info) {
                     html += `
                         <div class="center-info">
-                            <h4>🏢 Thông tin trung tâm</h4>
-                            <p><strong>${data.center_info.name}</strong></p>
-                            <p>📍 ${data.center_info.address}</p>
-                            <p>📞 ${data.center_info.hotline}</p>
-                            <p>📧 ${data.center_info.email || 'info@suachuaabc.com'}</p>
-                            <p>⏰ ${data.center_info.working_hours}</p>
+                            <h4>🏢 ${data.center_info.name || 'Trung tâm Sửa chữa ABC'}</h4>
+                            <p>📍 ${data.center_info.address || '123 Đường XYZ, TP.HCM'}</p>
+                            <p>📞 ${data.center_info.hotline || '1900 1234'}</p>
+                            <p>⏰ ${data.center_info.working_hours || '8:00 - 20:00'}</p>
                         </div>
-                        <button onclick="bookRepair()" style="margin-top: 15px;">📅 Đặt lịch sửa ngay</button>
                     `;
                 }
                 
+                if (data.ai_used) {
+                    html += `<p><em>🤖 Kết quả được phân tích bởi AI</em></p>`;
+                }
+                
+                html += `<button onclick="bookRepair()" style="margin-top: 15px;">📅 Đặt lịch sửa ngay</button>`;
                 html += `</div>`;
                 document.getElementById('result').innerHTML = html;
+                
             } else {
+                // Trường hợp không thể sửa
                 let html = `
                     <div class="result-card not-repairable">
                         <h3>⚠️ KẾT QUẢ CHẨN ĐOÁN</h3>
-                        <p><strong>Model:</strong> ${data.device_model}</p>
-                        <p><strong>Lỗi:</strong> ${data.detected_issues?.join(', ')}</p>
-                        <p><strong>❌ Không thể sửa chữa vì:</strong> ${data.if_cannot_repair?.reason}</p>
-                        <p><strong>♻️ Giải pháp tái chế:</strong> ${data.if_cannot_repair?.ewaste_solution}</p>
-                        <p><strong>💰 Giá trị thu hồi:</strong> ${data.if_cannot_repair?.recycle_value?.toLocaleString('vi-VN')} VNĐ</p>
-                        <button onclick="contactForRecycle()">📞 Liên hệ thu gom rác điện tử</button>
+                        <p><strong>Model:</strong> ${data.device_model || 'Chưa xác định'}</p>
+                        <p><strong>Lỗi:</strong> ${data.detected_issues ? data.detected_issues.join(', ') : 'Cần kiểm tra thực tế'}</p>
+                        <p><strong>❌ Không thể sửa chữa vì:</strong> ${data.if_cannot_repair?.reason || 'Thiết bị hư hỏng quá nặng'}</p>
+                        <p><strong>♻️ Giải pháp tái chế:</strong> ${data.if_cannot_repair?.ewaste_solution || 'Thu gom và tái chế rác điện tử'}</p>
+                        <p><strong>💰 Giá trị thu hồi:</strong> ${(data.if_cannot_repair?.recycle_value || 0).toLocaleString('vi-VN')} VNĐ</p>
+                        <button onclick="contactForRecycle()">📞 Liên hệ thu gom</button>
                     </div>
                 `;
                 document.getElementById('result').innerHTML = html;
             }
         }
         
-        // Định giá bán
         async function getPrice() {
             const deviceName = document.getElementById('priceDeviceName').value;
             const condition = document.getElementById('condition').value;
@@ -388,16 +266,12 @@
             }
             
             document.getElementById('loading').classList.add('active');
-            document.getElementById('result').innerHTML = '';
             
             try {
                 const response = await fetch('/api/price', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        deviceModel: deviceName,
-                        condition: condition
-                    })
+                    body: JSON.stringify({ deviceModel: deviceName, condition: condition })
                 });
                 
                 const result = await response.json();
@@ -409,101 +283,54 @@
                             <h3>💰 ĐỊNH GIÁ BÁN LẠI</h3>
                             <p><strong>📱 Thiết bị:</strong> ${deviceName}</p>
                             <p><strong>📊 Tình trạng:</strong> ${condition}</p>
-                            <p><strong>💰 Giá ước tính:</strong> <span class="price">${data.estimated_price?.toLocaleString('vi-VN')} VNĐ</span></p>
-                            <p><strong>📉 Khoảng giá:</strong> ${data.price_range?.min?.toLocaleString('vi-VN')} - ${data.price_range?.max?.toLocaleString('vi-VN')} VNĐ</p>
-                            <p><strong>📝 Nhận xét:</strong> ${data.condition_note}</p>
-                            <button onclick="sellProduct('${deviceName}', ${data.estimated_price})" style="margin-top: 15px;">📤 Đăng bán ngay</button>
+                            <p><strong>💰 Giá ước tính:</strong> <span class="price">${data.estimated_price?.toLocaleString('vi-VN') || 0} VNĐ</span></p>
+                            <p><strong>📉 Khoảng giá:</strong> ${data.price_range?.min?.toLocaleString('vi-VN') || 0} - ${data.price_range?.max?.toLocaleString('vi-VN') || 0} VNĐ</p>
+                            <p><strong>📝 Nhận xét:</strong> ${data.condition_note || ''}</p>
                         </div>
                     `;
                 }
             } catch (error) {
-                document.getElementById('result').innerHTML = `
-                    <div class="result-card not-repairable">
-                        <h3>❌ Lỗi</h3>
-                        <p>${error.message}</p>
-                    </div>
-                `;
+                document.getElementById('result').innerHTML = `<div class="result-card not-repairable"><h3>❌ Lỗi</h3><p>${error.message}</p></div>`;
             } finally {
                 document.getElementById('loading').classList.remove('active');
             }
         }
         
-        // Lưu lịch sử vào localStorage
-        function saveToHistory(data, customerName, customerPhone) {
+        function saveToLocalHistory(data, customerName, customerPhone) {
             let history = JSON.parse(localStorage.getItem('repair_history') || '[]');
-            
-            const record = {
+            history.unshift({
                 id: Date.now(),
                 date: new Date().toISOString(),
                 device_name: data.device_model,
-                error_description: document.getElementById('errorDesc').value,
                 repair_cost: data.repair_cost,
-                resell_price: data.resell_price_after_repair,
                 can_repair: data.can_repair,
-                repair_solution: data.repair_solution,
                 customer_name: customerName,
                 customer_phone: customerPhone
-            };
-            
-            history.unshift(record);
+            });
             if (history.length > 50) history = history.slice(0, 50);
             localStorage.setItem('repair_history', JSON.stringify(history));
         }
         
-        // Tra cứu lịch sử
         function viewHistory() {
             const phone = document.getElementById('historyPhone').value;
-            if (!phone) {
-                alert('Vui lòng nhập số điện thoại');
-                return;
-            }
+            if (!phone) { alert('Nhập số điện thoại'); return; }
             
             const history = JSON.parse(localStorage.getItem('repair_history') || '[]');
-            const filtered = history.filter(r => r.customer_phone === phone);
+            const filtered = history.filter(h => h.customer_phone === phone);
             
             if (filtered.length > 0) {
-                let html = `<h3>📜 Lịch sử sửa chữa (${filtered.length} lượt)</h3>`;
-                filtered.forEach(record => {
-                    const date = new Date(record.date).toLocaleDateString('vi-VN');
-                    html += `
-                        <div class="history-item">
-                            <strong>${date}</strong> - 
-                            <span class="badge ${record.can_repair ? 'badge-success' : 'badge-danger'}">
-                                ${record.can_repair ? 'Đã sửa' : 'Tái chế'}
-                            </span>
-                            <br>
-                            📱 ${record.device_name}<br>
-                            🔧 ${record.repair_solution?.substring(0, 50) || '...'}<br>
-                            💰 ${record.repair_cost?.toLocaleString('vi-VN') || 0}đ
-                        </div>
-                    `;
+                let html = `<h3>📜 Lịch sử (${filtered.length} lượt)</h3>`;
+                filtered.forEach(h => {
+                    html += `<div class="history-item"><strong>${new Date(h.date).toLocaleDateString()}</strong><br>📱 ${h.device_name}<br>💰 ${(h.repair_cost || 0).toLocaleString('vi-VN')}đ</div>`;
                 });
                 document.getElementById('result').innerHTML = html;
             } else {
-                document.getElementById('result').innerHTML = '<div class="result-card">📭 Không tìm thấy lịch sử</div>';
+                document.getElementById('result').innerHTML = '<div class="result-card">📭 Không có lịch sử</div>';
             }
         }
         
-        // Xóa lịch sử
-        function clearHistory() {
-            if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử?')) {
-                localStorage.removeItem('repair_history');
-                alert('✅ Đã xóa lịch sử');
-                document.getElementById('result').innerHTML = '';
-            }
-        }
-        
-        function bookRepair() {
-            alert('🔧 Cảm ơn bạn!\nVui lòng gọi hotline 1900 1234 để đặt lịch sửa chữa.');
-        }
-        
-        function contactForRecycle() {
-            alert('♻️ Cảm ơn bạn đã bảo vệ môi trường!\nVui lòng liên hệ 1900 1234 để được hướng dẫn thu gom rác điện tử.');
-        }
-        
-        function sellProduct(deviceName, price) {
-            alert(`📱 Đăng bán ${deviceName} với giá ${price.toLocaleString('vi-VN')}đ\nTính năng đang phát triển!`);
-        }
+        function bookRepair() { alert('📞 Gọi 1900 1234 để đặt lịch'); }
+        function contactForRecycle() { alert('♻️ Gọi 1900 1234 để thu gom'); }
     </script>
 </body>
 </html>
