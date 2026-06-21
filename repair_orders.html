@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <title>Đơn hàng sửa chữa</title>
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet"
+        href="css/repairstore.css">
+    </head>
+
+    <body class="content-page">
+        <div class="page-header">
+            <div>
+                <div class="page-title">
+                    Đơn hàng sửa chữa
+                </div>
+
+                <div class="page-desc">
+                    Quản lý các đơn sửa chữa của cửa hàng
+                </div>
+            </div>
+
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text"
+                placeholder="Tìm kiếm đơn hàng...">
+            </div>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-title">Tổng đơn</div>
+                <div class="stat-value">128</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Đang sửa</div>
+                <div class="stat-value">42</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Chờ nhận máy</div>
+                <div class="stat-value">18</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Hoàn tất</div>
+                <div class="stat-value">68</div>
+            </div>
+
+        </div>
+
+        <div class="table-card">
+            <div class="tabs">
+                <div class="tab active">Tất cả (128)</div>
+                <div class="tab">Đang sửa (42)</div>
+                <div class="tab">Chờ nhận máy (18)</div>
+                <div class="tab">Hoàn tất (68)</div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Thiết bị</th>
+                        <th>Khách hàng</th>
+                        <th>Báo giá</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>ORD-001</td>
+
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                    <i class="fa-solid fa-mobile-screen"></i>
+                                </div>
+
+                                <div>
+                                    iPhone 11
+                                </div>
+                            </div>
+                        </td>
+                        <td>Nguyễn Minh An</td>
+                        <td>450.000đ</td>
+                        <td>
+                            <span class="badge repairing">
+                                Đang sửa
+                            </span>
+                        </td>
+                        <td>20/06/2026</td>
+                        <td>
+                            <a href="order_details.html">
+                                <button class="btn-view">
+                                    Chi tiết
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>ORD-002</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                    <i class="fa-solid fa-laptop"></i>
+                                </div>
+                                <div>
+                                    Dell Inspiron
+                                </div>
+                            </div>
+                        </td>
+                        <td>Trần Thị B</td>
+                        <td>850.000đ</td>
+                        <td>
+                            <span class="badge wait">
+                                Chờ nhận máy
+                            </span>
+                        </td>
+                        <td>19/06/2026</td>
+                        <td>
+                            <a href="order_details.html">
+                                <button class="btn-view">
+                                    Chi tiết
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ORD-003</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                    <i class="fa-solid fa-tablet-screen-button"></i>
+                                </div>
+                                <div>
+                                    iPad Air 4
+                                </div>
+                            </div>
+                        </td>
+                        <td>Lê Minh C</td>
+                        <td>1.200.000đ</td>
+                        <td>
+                            <span class="badge done">
+                                Hoàn tất
+                            </span>
+                        </td>
+                        <td>18/06/2026</td>
+                        <td>
+                            <a href="order_details.html">
+                                <button class="btn-view">
+                                    Chi tiết
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>

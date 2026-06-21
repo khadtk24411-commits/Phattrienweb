@@ -1,0 +1,197 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Tiêu đề trang</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+
+                <div>
+                    <h1>Thanh toán & Vận chuyển</h1>
+                    <p>Quản lý đơn hàng, thanh toán và vận chuyển.</p>
+                </div>
+
+                <div class="page-actions">
+
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+
+                        <input type="text"
+                            id="txtSearchOrder"
+                            placeholder="Tìm đơn hàng...">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Tabs -->
+
+            <div class="market-tabs">
+
+                <button class="active-tab">
+                    Tất cả
+                    (<span id="txtTotalOrder">1240</span>)
+                </button>
+
+                <button>
+                    Chờ thanh toán
+                    (<span id="txtPendingPayment">23</span>)
+                </button>
+
+                <button>
+                    Đã thanh toán
+                    (<span id="txtPaid">1035</span>)
+                </button>
+
+                <button>
+                    Đang giao
+                    (<span id="txtShipping">156</span>)
+                </button>
+
+                <button>
+                    Hoàn thành
+                    (<span id="txtCompleted">1012</span>)
+                </button>
+
+                <button>
+                    Đã hủy
+                    (<span id="txtCancelled">32</span>)
+                </button>
+
+            </div>
+
+            <!-- Table -->
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID đơn hàng</th>
+                            <th>Người mua</th>
+                            <th>Sản phẩm</th>
+                            <th>Thanh toán</th>
+                            <th>Vận chuyển</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đặt</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblOrders">
+                        <tr>
+                            <td>ORD-0001</td>
+                            <td>
+                                Nguyễn Văn A
+                                <br>
+                                <small>usr-0001</small>
+                            </td>
+                            <td>MacBook Air M1 2020</td>
+                            <td>VNPay</td>
+                            <td>Giao hàng nhanh</td>
+                            <td>16.000.000đ</td>
+                            <td>
+                                <select>
+                                    <option>Đã thanh toán</option>
+                                    <option>Chờ thanh toán</option>
+                                    <option>Đã hủy</option>
+                                </select>
+                            </td>
+                            <td>20/05/2024</td>
+                        </tr>
+
+                        <tr>
+                            <td>ORD-0002</td>
+                            <td>
+                                Trần Thị B
+                                <br>
+                                <small>usr-0002</small>
+                            </td>
+                            <td>iPhone 11 64GB</td>
+                            <td>Momo</td>
+                            <td>Giao hàng tiết kiệm</td>
+                            <td>6.500.000đ</td>
+                            <td>
+                                <select>
+                                    <option>Đã thanh toán</option>
+                                    <option>Chờ thanh toán</option>
+                                    <option>Đã hủy</option>
+                                </select>
+                                </span>
+                            </td>
+                            <td>20/05/2024</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>ORD-0003</td>
+                            <td>
+                                Lê Minh C
+                                <br>
+                                <small>usr-0003</small>
+                            </td>
+                            <td>Tai nghe Sony XM4</td>
+                            <td>ZaloPay</td>
+                            <td>Giao hàng nhanh</td>
+                            <td>3.200.000đ</td>
+                            <td>
+                                <select>
+                                    <option>Đã thanh toán</option>
+                                    <option>Chờ thanh toán</option>
+                                    <option>Đã hủy</option>
+                                </select>
+                            </td>
+                            <td>19/05/2024</td>
+                        </tr>
+
+                        <tr>
+                            <td>ORD-0004</td>
+                            <td>
+                                Phạm Gia D
+                                <br>
+                                <small>usr-0004</small>
+                            </td>
+                            <td>iPad Air 4</td>
+                            <td>VNPay</td>
+                            <td>Giao hàng tiết kiệm</td>
+                            <td>7.200.000đ</td>
+                            <td>
+                                <select>
+                                    <option>Đã thanh toán</option>
+                                    <option>Chờ thanh toán</option>
+                                    <option>Đã hủy</option>
+                                </select>
+                                </span>
+                            </td>
+                            <td>19/05/2024</td>
+                        </tr>
+
+                        <tr>
+                            <td>ORD-0005</td>
+                            <td>
+                                Hoàng Thị E
+                                <br>
+                                <small>usr-0005</small>
+                            </td>
+                            <td>Dell XPS 13</td>
+                            <td>Momo</td>
+                            <td>Giao hàng nhanh</td>
+                            <td>18.500.000đ</td>
+                            <td>
+                                <select>
+                                    <option>Đã thanh toán</option>
+                                    <option>Chờ thanh toán</option>
+                                    <option>Đã hủy</option>
+                                </select>
+                            </td>
+                            <td>18/05/2024</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+    </div>
+
+    </body>
+</html>

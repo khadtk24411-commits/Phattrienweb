@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <title>Báo giá sửa chữa</title>
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="css/repairstore.css">
+    </head>
+
+    <body class="content-page">
+        <a href="quotation_list.html" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            Quay lại danh sách
+        </a>
+
+        <div class="quote-layout">
+            <div>
+                <div class="card">
+                    <h3>Thông tin thiết bị</h3>
+                    <div class="device-info">
+                        <div class="device-img">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <div class="device-detail">
+                            <h4>iPhone 11</h4>
+                            <p><b>Lỗi:</b> Pin chai nhanh</p>
+                            <p>
+                                <b>Khách hàng:</b>
+                                Nguyễn Minh An
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card ai-box">
+                    <h4>🤖 AI chẩn đoán</h4>
+                    <p>Pin chai, hiệu năng giảm.</p><br>
+                    <p>Đề xuất: Thay pin mới để cải thiện hiệu suất và thời gian sử dụng.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Gợi ý linh kiện</h3>
+                    <div class="part-item">
+                        <span>Pin iPhone 11 (Zin chuẩn)</span>
+                        <span class="part-price">450.000đ</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Báo giá gửi khách hàng</h3>
+                <div class="form-group">
+                    <label>Giá sửa chữa</label>
+                    <input type="number" value="450000" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Linh kiện sử dụng</label>
+                    <select class="form-control">
+                        <option>Pin iPhone 11 (Zin chuẩn)</option>
+
+                        <option>Pin iPhone 11 Pisen</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Thời gian sửa dự kiến</label>
+                    <select class="form-control">
+                        <option>30 - 45 phút</option>
+                        <option>1 - 2 giờ</option>
+                        <option>Trong ngày</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Bảo hành</label>
+                    <select class="form-control">
+                        <option>6 tháng</option>
+                        <option>12 tháng</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Ghi chú</label>
+                    <textarea class="form-control">Bảo hành pin 6 tháng. Kiểm tra máy miễn phí.</textarea>
+                </div>
+
+                <button class="btn-submit">
+                    Gửi báo giá cho khách hàng
+                </button>
+            </div>
+        </div>
+
+    </body>
+</html>

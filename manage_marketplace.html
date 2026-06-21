@@ -1,0 +1,178 @@
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Tiêu đề trang</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <!-- Header -->
+
+            <div class="page-header">
+
+                <div>
+                    <h1>Marketplace (Bài đăng)</h1>
+                    <p>Quản lý tất cả bài đăng trên sàn.</p>
+                </div>
+
+                <div class="page-actions">
+
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+
+                        <input type="text"
+                            id="txtSearchPost"
+                            placeholder="Tìm kiếm bài đăng...">
+                    </div>
+
+                    <button class="btn-add">
+                        <i class="fa-solid fa-plus"></i>
+                        Thêm bài đăng
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="market-tabs">
+                <button class="active-tab">
+                    Tất cả (<span id="txtTotalPost">8765</span>)
+                </button>
+
+                <button>
+                    Đang bán
+                    (<span id="txtActivePost">7123</span>)
+                </button>
+
+                <button>
+                    Chờ duyệt
+                    (<span id="txtPendingPost">132</span>)
+                </button>
+                <button>
+                    Đã bán
+                    (<span id="txtSoldPost">510</span>)
+            </div>
+
+
+            <div class="table-card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID bài đăng</th>
+                            <th>Sản phẩm</th>
+                            <th>Người đăng</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày đăng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tblMarketplace">
+                        <tr>
+                            <td>PST-0001</td>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="../images/laptop.png">
+                                    <div>
+                                        <strong>MacBook Air M1 2020</strong>
+                                        <p>8GB / 256GB</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                Nguyễn Văn A
+                                <br>
+                                <small>usr-0001</small>
+                            </td>
+                            <td>Laptop</td>
+                            <td>16.000.000đ</td>
+                            <td>
+                                <span class="badge success-bg">
+                                    Đang hoạt động
+                                </span>
+                            </td>
+                            <td>20/05/2024</td>
+                            <td>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>PST-0002</td>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="../images/iphone.png">
+                                    <div>
+                                        <strong>iPhone 11 64GB</strong>
+                                        <p>Quốc tế</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                Trần Thị B
+                                <br>
+                                <small>usr-0002</small>
+                            </td>
+
+                            <td>Điện thoại</td>
+                            <td>6.500.000đ</td>
+
+                            <td>
+                                <span class="badge warning-bg">
+                                    Chờ duyệt
+                                </span>
+                            </td>
+
+                            <td>20/05/2024</td>
+
+                            <td>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>PST-0003</td>
+                            <td>
+                                <div class="product-cell">
+                                    <img src="../images/headphone.png">
+                                    <div>
+                                        <strong>Tai nghe Sony XM4</strong>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                Lê Minh C
+                                <br>
+                                <small>usr-0003</small>
+                            </td>
+                            <td>Phụ kiện</td>
+                            <td>3.200.000đ</td>
+                            <td>
+                                <span class="badge success-bg">
+                                    Đang hoạt động
+                                </span>
+                            </td>
+                            <td>19/05/2024</td>
+                            <td>
+                                <button class="action-btn">
+                                    <i class="fa-solid fa-ellipsis"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </body>
+</html>

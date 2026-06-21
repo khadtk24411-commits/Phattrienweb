@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<title>Người dùng</title>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>Người dùng</h1>
+            <p>Quản lý và theo dõi tất cả người dùng trên hệ thống.</p>
+        </div>
+
+        <div class="page-actions">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm người dùng...">
+            </div>
+
+            <button class="btn-filter">
+                <i class="fa-solid fa-filter"></i>
+                Bộ lọc
+            </button>
+
+            <button class="btn-add">
+                <i class="fa-solid fa-plus"></i>
+                Thêm đơn vị sửa chữa
+            </button>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="card stat-card">
+            <div class="card-icon green">
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div>
+                <h4>Tổng người dùng</h4>
+                <span id="txtTotalUsers">
+                    12.458
+                </span>
+            </div>
+
+        </div>
+        <div class="card stat-card">
+            <div class="card-icon green">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+
+            <div>
+                <h4>Người dùng đang hoạt động</h4>
+                <span id="txtActiveUsers">
+                    8.765
+                </span>
+            </div>
+        </div>
+
+        <div class="card stat-card">
+            <div class="card-icon blue">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <div>
+                <h4>Đã xác thực VNU</h4>
+                <span id="txtVerified">
+                    9.213
+                </span>
+            </div>
+
+        </div>
+
+        <div class="card stat-card">
+            <div class="card-icon red">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <div>
+                <h4>Người dùng bị khóa</h4>
+                <span id="txtLocked">
+                    36
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>SĐT</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>
+                    <th>Xác thực VNU</th>
+                    <th>Ngày tham gia</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>US0001</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>nguyenvana@gmail.com</td>
+                    <td>0901234567</td>
+                    <td>Người dùng</td>
+                    <td>
+                        <span class="badge success-bg">
+                            Hoạt động
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge success-bg">
+                            Đã xác thực
+                        </span>
+                    </td>
+                    <td>20/05/2024</td>
+                    <td>
+                        <button class="action-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>US0002</td>
+                    <td>Trần Thị B</td>
+                    <td>tranthib@gmail.com</td>
+                    <td>0912345678</td>
+                    <td>Đơn vị sửa chữa</td>
+                    <td>
+                        <span class="badge success-bg">
+                            Hoạt động
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge success-bg">
+                            Không xác thực
+                        </span>
+                    </td>
+                    <td>19/05/2024</td>
+                    <td>
+                        <button class="action-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>US0003</td>
+                    <td>Lê Minh C</td>
+                    <td>leminhc@gmail.com</td>
+                    <td>0923456789</td>
+                    <td>Người dùng</td>
+                    <td>
+                        <span class="badge success-bg">
+                            Hoạt động
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge warning-bg">
+                            Chờ xác thực
+                        </span>
+                    </td>
+                    <td>18/05/2024</td>
+                    <td>
+                        <button class="action-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>US0004</td>
+                    <td>Phạm Gia D</td>
+                    <td>phamgiad@gmail.com</td>
+                    <td>0934567890</td>
+                    <td>Người dùng</td>
+                    <td>
+                        <span class="badge danger-bg">
+                            Bị khóa
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge danger-bg">
+                            Không đạt
+                        </span>
+                    </td>
+                    <td>17/05/2024</td>
+                    <td>
+                        <button class="action-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>US0005</td>
+                    <td>Hoàng Thị E</td>
+                    <td>hoangthie@gmail.com</td>
+                    <td>0945678901</td>
+                    <td>Đơn vị sửa chữa</td>
+                    <td>
+                        <span class="badge success-bg">
+                            Hoạt động
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge success-bg">
+                            Không xác thực
+                        </span>
+                    </td>
+                    <td>17/05/2024</td>
+                    <td>
+                        <button class="action-btn">
+                            <i class="fa-solid fa-ellipsis"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

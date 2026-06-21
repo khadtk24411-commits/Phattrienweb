@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REshare - Green Coin</title>
+ 
+  <link rel="stylesheet" href="./css/mainstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <h1>Green Coin System</h1>
+  <p>Thực hiện các hành động xanh để tích Green Coin và đổi ưu đãi hấp dẫn!</p>
+  <div class="hero">
+    <div class="balance">
+      <h3>Số dư Green Coin của bạn</h3>
+      <div class="coin">
+      <span id="coinValue"></span>
+      <i class="fa-solid fa-coins"></i>
+  </div>
+
+  <div>
+      ≈ <span id="moneyValue"></span> VNĐ
+  </div>
+        </div>
+        <div class="info">
+          <h3>Green Coin là gì?</h3>
+          <p>Điểm thưởng dành cho những hành động xanh, góp phần bảo vệ môi trường. <br> Bạn có thể tích điểm và đổi ưu đãi hấp dẫn.</p>
+          <p><a href="#">Xem chi tiết</a></p>
+        </div>
+    </div>
+    <div class="cards">
+        <div class="card">
+          <div class="icon">
+            <i class="fa-solid fa-box-open"></i>
+          </div>
+          <h4>Đăng bán sản phẩm</h4>
+          <p>Đăng bán thành công sản phẩm trên ECOsycle</p>
+          <button>Nhiều coin nhất</button>
+
+        </div>
+        <div class="card">
+          <div class="icon">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <h4>Sửa chữa thiết bị</h4>
+          <p>Mang thiết bị đi sửa chữa thay vì mua mới</p>
+          <button>Trung bình</button>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <i class="fa-solid fa-recycle"></i>
+          </div>
+          <h4>Xử lý rác</h4>
+          <p>Xử lý rác đúng cách, tái chế tại điểm thu gom</p>
+          <button>Trung bình</button>
+        </div>
+        <div class="card">
+          <div class="icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          <h4>Mua hàng</h4>
+          <p>Mua sản phẩm từ người dùng hoặc sản phẩm xanh trên ECOcycle</p>
+          <button>Trung bình</button>
+        </div>
+      </div>
+
+      <div class="exchange">
+        <h3>
+        Đổi Green Coin thành ưu đãi
+        <div class="icon">
+          <i class="fa-solid fa-ticket-simple"></i>
+        </div>
+        </h3>
+        <p>Đổi coin để nhận mã giảm giá và nhiều ưu đãi hấp dẫn khác</p>
+        <button>Xem ưu đãi</button>
+      </div>
+
+      <div class="history">
+        <h3>Lịch sử tích Green Coin</h3>
+        <table>
+      <thead>
+          <tr>
+              <th>Hành động</th>
+              <th>Mô tả</th>
+              <th>Số coin</th>
+              <th>Thời gian</th>
+          </tr>
+      </thead>
+
+      <tbody id="historyTable">
+      </tbody>
+  </table>
+  </div>
+  <iframe src="footer.html" style="width:100%; height:500px; border:none;" scrolling="no"></iframe>
+    </body>
+</body>
+  <script src="./js/greencoin.js"></script>
+</html>

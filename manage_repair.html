@@ -1,0 +1,208 @@
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../css/admin.css">
+
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+        <title>Sửa chữa & Tái chế</title>
+    </head>
+<body>
+
+<div class="container">
+    <div class="page-header">
+        <div>
+            <h1>Sửa chữa & Tái chế</h1>
+            <p>
+                Quản lý yêu cầu sửa chữa, mua lại và xử lý rác điện tử.
+            </p>
+        </div>
+
+        <div class="page-actions">
+
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="txtSearchOrder" placeholder="Tìm sản phẩm...">
+            </div>
+        </div>
+    </div>
+
+    <div class="repair-summary">
+        <div class="summary-card">
+            <i class="fa-solid fa-list-check"></i>
+            <div>
+                <h4>Tổng yêu cầu mua lại</h4>
+                <span id="txtTotalRequest">512</span>
+            </div>
+
+        </div>
+
+        <div class="summary-card">
+            <i class="fa-solid fa-cart-shopping"></i>
+
+            <div>
+                <h4>Thiết bị đã mua lại</h4>
+                <span id="txtBuyBack">158</span>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+
+            <div>
+                <h4>Thiết bị đã sửa</h4>
+                <span id="txtRepair">246</span>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <i class="fa-solid fa-recycle"></i>
+            <div>
+                <h4>Rác điện tử đã xử lý</h4>
+                <span id="txtRecycle">108</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="table-card">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Sản phẩm</th>
+                    <th>Sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- MUA LẠI THIẾT BỊ -->
+                <tr>
+                    <td>ML-240601-001</td>
+                    <td>iPhone XR 64GB</td>
+                    <td>MUA LẠI THIẾT BỊ</td>
+                    <td>
+                        <select>
+                            <option>Chưa duyệt</option>
+                            <option>Chờ duyệt</option>
+                            <option>Đã duyệt</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ML-240601-002</td>
+                    <td>MacBook Air 2017</td>
+                    <td>MUA LẠI THIẾT BỊ</td>
+                    <td>
+                        <select>
+                            <option>Chưa duyệt</option>
+                            <option>Chờ duyệt</option>
+                            <option>Đã duyệt</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>ML-240601-003</td>
+                    <td>Samsung S10</td>
+                    <td>MUA LẠI THIẾT BỊ</td>
+                    <td>
+                        <select>
+                            <option>Chưa duyệt</option>
+                            <option>Chờ duyệt</option>
+                            <option>Đã duyệt</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- SỬA CHỮA -->
+                <tr>
+                    <td>SC-240601-001</td>
+                    <td>Dell Inspiron 15</td>
+                    <td>SỬA CHỮA</td>
+                    <td>
+                        <select>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                            <option>Đã hủy</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>SC-240601-002</td>
+                    <td>iPhone 11</td>
+                    <td>SỬA CHỮA</td>
+                    <td>
+                        <select>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                            <option>Đã hủy</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>SC-240601-003</td>
+                    <td>MacBook Air M1</td>
+                    <td>SỬA CHỮA</td>
+                    <td>
+                        <select>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                            <option>Đã hủy</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- XỬ LÝ RÁC ĐIỆN TỬ -->
+                <tr>
+                    <td>XL-240601-001</td>
+                    <td>Bo mạch chủ cũ</td>
+                    <td>XỬ LÝ RÁC ĐIỆN TỬ</td>
+                    <td>
+                        <select>
+                            <option>Thu gom</option>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>XL-240601-002</td>
+                    <td>Pin laptop cũ</td>
+                    <td>XỬ LÝ RÁC ĐIỆN TỬ</td>
+                    <td>
+                        <select>
+                            <option>Thu gom</option>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>XL-240601-003</td>
+                    <td>Màn CRT 17 inch</td>
+                    <td>XỬ LÝ RÁC ĐIỆN TỬ</td>
+                    <td>
+                        <select>
+                            <option>Thu gom</option>
+                            <option>Chờ gửi</option>
+                            <option>Đã gửi</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

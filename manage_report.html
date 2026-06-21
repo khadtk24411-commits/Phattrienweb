@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Báo cáo & Khiếu nại - REshare Admin</title>
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div>
+            <h1>Báo cáo & Khiếu nại</h1>
+            <p>Thống kê doanh thu, tác động môi trường và xử lý khiếu nại.</p>
+        </div>
+
+        <div class="page-actions">
+            <div class="search-box">
+                <i class="fa-solid fa-search"></i>
+                <input type="text" id="txtSearchOrder" placeholder="Tìm báo cáo...">
+            </div>
+            <button class="btn-filter">
+                <i class="fa-solid fa-filter"></i>
+                Bộ lọc
+            </button>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card revenue">
+
+            <i class="fa-solid fa-money-bill-trend-up"></i>
+
+            <div>
+                <h4>Tổng doanh thu</h4>
+                <span id="txtRevenue">856M</span>
+            </div>
+
+        </div>
+
+        <div class="summary-card recycle">
+
+            <i class="fa-solid fa-recycle"></i>
+
+            <div>
+                <h4>Thiết bị tái chế</h4>
+                <span id="txtRecycle">12.568</span>
+            </div>
+
+        </div>
+
+        <div class="summary-card co2">
+
+            <i class="fa-solid fa-leaf"></i>
+
+            <div>
+                <h4>CO₂ giảm được</h4>
+                <span id="txtCO2">36.712</span>
+            </div>
+
+        </div>
+
+        <div class="summary-card complaint">
+
+            <i class="fa-solid fa-triangle-exclamation"></i>
+
+            <div>
+                <h4>Khiếu nại</h4>
+                <span id="txtComplaint">18</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BÁO CÁO DOANH THU -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Báo cáo Doanh thu
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Tháng</th>
+                    <th>Số đơn</th>
+                    <th>Doanh thu</th>
+                    <th>Tăng trưởng</th>
+                </tr>
+
+                </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>01/2025</td>
+                    <td>120</td>
+                    <td>75.000.000đ</td>
+                    <td><span class="badge success">+12%</span></td>
+                </tr>
+
+                <tr>
+                    <td>02/2025</td>
+                    <td>135</td>
+                    <td>82.000.000đ</td>
+                    <td><span class="badge success">+9%</span></td>
+                </tr>
+
+                <tr>
+                    <td>03/2025</td>
+                    <td>156</td>
+                    <td>94.000.000đ</td>
+                    <td><span class="badge success">+15%</span></td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- BÁO CÁO XANH -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Báo cáo Xanh
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Chỉ số môi trường</th>
+                    <th>Giá trị</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Tổng thiết bị tái chế</td>
+                    <td>12.568</td>
+                </tr>
+
+                <tr>
+                    <td>Tổng thiết bị bán lại</td>
+                    <td>24.851</td>
+                </tr>
+
+                <tr>
+                    <td>Rác điện tử xử lý</td>
+                    <td>8.421 kg</td>
+                </tr>
+
+                <tr>
+                    <td>CO₂ giảm được</td>
+                    <td>36.712 kg CO₂e</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- KHIẾU NẠI -->
+
+    <div class="section">
+
+        <div class="section-title">
+            Danh sách Khiếu nại cần xử lý
+        </div>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Mã KN</th>
+                    <th>Người gửi</th>
+                    <th>Nội dung</th>
+                    <th>Mức độ</th>
+                    <th>Ngày gửi</th>
+                    <th>Trạng thái</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="tblComplaint">
+
+                <tr>
+                    <td>KN-001</td>
+                    <td>Nguyễn Văn A</td>
+                    <td>Không nhận được sản phẩm</td>
+                    <td><span class="badge danger">Cao</span></td>
+                    <td>20/05/2025</td>
+                    <td><span class="badge warning">Chờ xử lý</span></td>
+                </tr>
+
+                <tr>
+                    <td>KN-002</td>
+                    <td>Trần Thị B</td>
+                    <td>Sản phẩm không đúng mô tả</td>
+                    <td><span class="badge warning">Trung bình</span></td>
+                    <td>19/05/2025</td>
+                    <td><span class="badge info">Đang xử lý</span></td>
+                </tr>
+
+                <tr>
+                    <td>KN-003</td>
+                    <td>Lê Minh C</td>
+                    <td>Chậm hoàn tiền</td>
+                    <td><span class="badge success">Thấp</span></td>
+                    <td>18/05/2025</td>
+                    <td><span class="badge success">Đã giải quyết</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>

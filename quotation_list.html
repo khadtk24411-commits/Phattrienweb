@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <title>Yêu cầu báo giá</title>
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="css/repairstore.css">
+    </head>
+
+    <body class="content-page">
+
+        <div class="page-header">
+
+            <div>
+                <h1 class="page-title">Yêu cầu báo giá</h1>
+                <p>Danh sách thiết bị khách hàng gửi yêu cầu sửa chữa.</p>
+            </div>
+
+            <div class="search-filter">
+
+                <div class="search-box">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text"
+                        placeholder="Tìm thiết bị...">
+                </div>
+
+                <button class="filter-btn">
+                    <i class="fa-solid fa-filter"></i>
+                    Bộ lọc
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- THỐNG KÊ -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <div class="stat-title">Tổng yêu cầu</div>
+                <div class="stat-value">126</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Chờ báo giá</div>
+                <div class="stat-value">24</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Đã gửi báo giá</div>
+                <div class="stat-value">88</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Khách đã đồng ý</div>
+                <div class="stat-value">14</div>
+            </div>
+
+        </div>
+
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã YC</th>
+                        <th>Thiết bị</th>
+                        <th>Khách hàng</th>
+                        <th>Lỗi mô tả</th>
+                        <th>Ngày gửi</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>SC-001</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                </div>
+
+                                <div>iPhone 11</div>
+                            </div>
+                        </td>
+                        <td>Nguyễn Minh An</td>
+                        <td>Pin chai nhanh</td>
+                        <td>20/06/2026</td>
+
+                        <td>
+                            <span class="status wait">
+                            Chờ báo giá
+                            </span>
+                        </td>
+
+                        <td>
+                            <a href="quotation.html">
+                            <button class="btn-quote">
+                            Báo giá
+                            </button>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>SC-002</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                <i class="fa-solid fa-laptop"></i>
+                                </div>
+
+                                <div>Dell Inspiron</div>
+                            </div>
+                        </td>
+                        <td>Trần Thị B</td>
+                        <td>Máy không lên nguồn</td>
+                        <td>20/06/2026</td>
+                        <td>
+                            <span class="status sent">
+                            Đã gửi báo giá
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-quote">
+                                Xem
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>SC-003</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                <i class="fa-solid fa-tablet-screen-button"></i>
+                                </div>
+
+                                <div>
+                                iPad Air 4
+                                </div>
+                            </div>
+                        </td>
+                        <td>Lê Minh C</td>
+                        <td>Vỡ màn hình</td>
+                        <td>19/06/2026</td>
+                        <td>
+                            <span class="status done">
+                                Đã đồng ý
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn-quote">
+                            Chi tiết
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>SC-004</td>
+                        <td>
+                            <div class="device">
+                                <div class="device-img">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                                </div>
+                                <div>
+                                Samsung S22
+                                </div>
+                            </div>
+                        </td>
+                        <td>Phạm Gia D</td>
+                        <td>Loa rè</td>
+                        <td>18/06/2026</td>
+                        <td>
+                            <span class="status wait">
+                            Chờ báo giá
+                            </span>
+                        </td>
+                        <td>
+                            <a href="quotation.html">
+                                <button class="btn-quote">
+                                Báo giá
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </body>
+</html>
