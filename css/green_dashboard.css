@@ -1,0 +1,133 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f6f7;
+    padding:30px;
+}
+
+.dashboard{
+    width:100%;
+}
+
+/* CARD */
+
+.stat-card{
+    height:170px;
+    border-radius:20px;
+    margin-bottom:25px;
+    padding:25px 35px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.card-left{
+    width:170px;
+    display:flex;
+    justify-content:center;
+}
+
+.card-left i{
+    font-size:90px;
+    color:#1f9d47;
+}
+
+.card-center{
+    flex:1;
+}
+
+.card-title{
+    font-size:20px;
+    font-weight:700;
+    color:#222;
+    margin-bottom:15px;
+    text-transform:uppercase;
+}
+
+.card-number{
+    font-size:58px;
+    font-weight:700;
+    color:#138236;
+    margin-bottom:10px;
+}
+
+.card-desc{
+    color:#666;
+    font-size:15px;
+}
+
+.card-right{
+    width:120px;
+    text-align:right;
+}
+
+.card-index{
+    font-size:72px;
+    font-weight:700;
+    opacity:.25;
+}
+
+/* CARD COLORS */
+
+.green{
+    background:#eef8ec;
+}
+
+.green .card-index{
+    color:#67bb5f;
+}
+
+.blue{
+    background:#eef5fc;
+}
+
+.blue .card-index{
+    color:#79b5f0;
+}
+
+.yellow{
+    background:#fcf8ea;
+}
+
+.yellow .card-index{
+    color:#e9c956;
+}
+
+.lightgreen{
+    background:#eef7f1;
+}
+
+.lightgreen .card-index{
+    color:#8bc77d;
+}
+
+@media(max-width:900px){
+
+    .stat-card{
+        flex-direction:column;
+        height:auto;
+        text-align:center;
+        gap:15px;
+    }
+
+    .card-right{
+        width:auto;
+    }
+
+    .community-card{
+        flex-direction:column;
+        gap:20px;
+        text-align:center;
+    }
+
+    .community-left{
+        flex-direction:column;
+    }
+
+}
