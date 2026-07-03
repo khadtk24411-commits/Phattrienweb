@@ -1,0 +1,35 @@
+[
+    {
+        "adminID": "AD001",
+        "fullName": "Nguyễn Văn Sơn",
+        "userName": "nguyenvanson",
+        "email": "nguyenvanson@gmail.com",
+        "phoneNumber": "0913088227",
+        "passwords": "123456",
+        "bankName": "BIDV",
+        "bankAccount": "10192011221",
+        "nameAccount": "ecocycle"
+    },
+    {
+        "adminID": "AD002",
+        "fullName": "Trần Thị Mai",
+        "userName": "tranthimai",
+        "email": "tranthimai@gmail.com",
+        "phoneNumber": "0909876543",
+        "passwords": "123456",
+        "bankName": "BIDV",
+        "bankAccount": "10192011221",
+        "nameAccount": "ecocycle"
+    },
+      {
+        "adminID": "AD003",
+        "fullName": "Phan Huy Dũng",
+        "userName": "phanhuydung11",
+        "email": "phanhuydung@gmail.com",
+        "phoneNumber": "0653173165",
+        "passwords": "123456",
+        "bankName": "BIDV",
+        "bankAccount": "10192011221",
+        "nameAccount": "ecocycle"
+    }
+]

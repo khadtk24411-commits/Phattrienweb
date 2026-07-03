@@ -1,0 +1,63 @@
+[
+    {
+        "cartID": "CT000001",
+        "customerID": "CM000001",
+        "products": 
+        [
+            {
+                "productID": "DV000001",
+                "quantity": 2
+            },
+            {
+                "productID": "DV000002",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "cartID": "CT000002",
+        "customerID": "CM000002",
+        "products": 
+        [
+            {
+                "productID": "DV000001",
+                "quantity": 2
+            },
+            {
+                "productID": "DV000002",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "cartID": "CT000003",
+        "customerID": "CM000003",
+        "products": 
+        [
+            {
+                "productID": "DV000001",
+                "quantity": 2
+            },
+            {
+                "productID": "DV000005",
+                "quantity": 1
+            },
+            {
+                "productID": "DV000009",
+                "quantity": 1
+            },
+            {
+                "productID": "DV000010",
+                "quantity": 1
+            }
+        ]
+    },
+    {
+        "cartID": "CT000004",
+        "customerID": "CM000004",
+        "products": 
+        [
+
+        ]
+    }
+]

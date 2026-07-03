@@ -1,0 +1,38 @@
+[
+    {
+        "transactionID": "TS000001",
+        "orderID": "RC000001",
+        "action": "Recycle Device",
+        "greenCoins": 20
+    },
+    {
+        "transactionID": "TS000002",
+        "orderID": "OD000001",
+        "action": "Buy Device",
+        "greenCoins": 20
+    },
+    {
+        "transactionID": "TS000003",
+        "orderID":"RP000001",
+        "action": "Repair Device",
+        "greenCoins": 15
+    },
+    {
+        "transactionID": "TS000004",
+        "orderID": "RS000001",
+        "action": "Sell Device",
+        "greenCoins": 25
+    },
+    {
+        "transactionID": "TS000005",
+        "orderID": "OD000002",
+        "action": "Buy Device",
+        "greenCoins": 10
+    },
+    {
+        "transactionID": "TS000006",
+        "orderID": "OD000003",
+        "action": "Buy Device",
+        "greenCoins": 20
+    }
+]

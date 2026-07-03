@@ -1,0 +1,26 @@
+[
+    {
+        "notificationID": "NT000001",
+        "customerID": "CM000001",
+        "title": "Your order has been delivered",
+        "isRead": false
+    },
+    {
+        "notificationID": "NT000002",
+        "customerID": "CM000001",
+        "title": "Your complaint has been resolved",
+        "isRead": true
+    },
+    {
+        "notificationID": "NT000003",
+        "customerID": "CM000002",
+        "title": "Your order has been delivered",
+        "isRead": true
+    },
+    {
+        "notificationID": "NT000004",
+        "customerID": "CM000003",
+        "title": "Your complaint is being processed",
+        "isRead": false
+    }
+]

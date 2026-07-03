@@ -1,0 +1,26 @@
+[
+    {
+        "reviewID": "RV000001",
+        "productID": "DV000003",
+        "buyerID": "CM000001",
+        "date": "2026-06-25",
+        "rating": 5,
+        "comment": "Product as described"
+    }, 
+    {
+        "reviewID": "RV000002",
+        "productID": "DV000003",
+        "buyerID": "CM000002",
+        "date": "2026-06-26",
+        "rating": 4,
+        "comment": "Product as described"
+    },
+    {
+        "reviewID": "RV000003",
+        "productID": "DV000003",
+        "buyerID": "CM000003",
+        "date": "2026-06-28",
+        "rating": 2,
+        "comment": "So Bad"
+    }
+]

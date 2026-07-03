@@ -1,0 +1,11 @@
+[
+    {
+        "resellOrderID": "RS000001",
+        "requestID": "RQ000002",
+        "pickupDate": "2024-06-19",
+        "pickupAddress": "123 Đường ABC, Quận 1, TP.HCM",
+        "finalPrice": "800.000đ",
+        "status": "In Progress",
+        "orderDate": "2024-06-15"
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "chatID": "CHAT000001",
+        "participants": ["CM000001", "BR000001"]
+    },
+    {
+        "chatID": "CHAT000002",
+        "participants": ["CM000001", "CM000003"]
+    }
+]

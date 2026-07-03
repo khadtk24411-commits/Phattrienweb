@@ -1,0 +1,12 @@
+[
+    {
+        "recycleOrderID": "RC000001",
+        "requestID": "RQ000003",
+        "pickupDate": "2024-06-15",
+        "pickupAddress": "123 Đường Hai Bà Trưng, Quận 1, TP.HCM",
+        "finalCost": "30.000₫",
+        "co2ReducedKg": "1kg",
+        "status": "In Progress",
+        "orderDate": "2024-06-15"
+    }
+]

@@ -1,0 +1,37 @@
+[
+    {
+        "requestID": "RQ000001",
+        "customerID": "CM000001",
+        "productName": "Laptop Asus ZenBook 14",
+        "brand": "Asus",
+        "model": "ZenBook 14",
+        "condition": "Break Screen",
+        "weight": "1.5kg",
+        "requestType": "Repair",
+        "status": "Processed"
+    },
+    {
+        "requestID": "RQ000002",
+        "customerID": "CM000004",
+        "productName": "Phone Samsung Galaxy S21",
+        "brand": "Samsung",
+        "model": "Galaxy S21",
+        "condition": " Vertical lines on the screen",
+        "weight": "0.2kg",
+        "requestType": "Resell", 
+        "status": "Processed"
+    },
+    {
+        "requestID": "RQ000003",
+        "customerID": "CM000002",
+        "productName": "Tablet Apple iPad Air",
+        "brand": "Apple",
+        "model": "iPad Air",
+        "condition": "Cracked Back Cover",
+        "weight": "0.5kg",
+        "requestType": "Recycle",
+        "status": "Processed"
+    }
+
+]
+

@@ -1,0 +1,16 @@
+[
+    {
+        "paymentID": "PM00001",
+        "orderID": "OD000001",
+        "method": "Banking",
+        "amount": "15.415.000₫",
+        "status": "Paid"
+    },
+    {
+        "paymentID": "PM00002",
+        "orderID": "RP000001",
+        "method": "Banking",
+        "amount": "800.000₫",
+        "status": "Paid"
+    }
+]

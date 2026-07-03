@@ -1,0 +1,100 @@
+[
+  {
+    "customers": 
+	[
+		{
+			"customerID": "CM000001",
+			"fullName": "Nguyễn Văn Lợi",
+			"userName": "nguyenvanloi",
+			"email": "nguyenvanloi@gmail.com",
+			"phoneNumber": "0913065227",
+			"passwords": "123456",
+			"joinDate": "2026-06-13",
+			"address": "123 Đường Xanh, Quận 1, TP.HCM",
+			"bankName": "BIDV",
+			"bankAccount": "103694371518",
+			"nameAccount": "NGUYỄN VĂN LỢI",
+			"greenCoins": 111,
+			"isVerifiedVNU": true
+		},
+		{
+			"customerID": "CM000002",
+			"fullName": "Dương Bảo Bảo",
+			"userName": "duongbao",
+			"email": "duongbaobao@gmail.com",
+			"phoneNumber": "0967138638",
+			"passwords": "123456",
+			"joinDate": "2026-06-14",
+			"address": "145 Đường Nguyễn Khuyến, Quận 2, TP.HCM",
+			"bankName": "BIDV",
+			"bankAccount": "101694371518",
+			"nameAccount": "DƯƠNG BẢO BẢO",
+			"greenCoins": 31,
+			"isVerifiedVNU": true
+		},
+		{
+			"customerID": "CM000003",
+			"fullName": "Phan Hoàng Anh Thư",
+			"userName": "anhthu1181",
+			"email": "anhthu1181@gmail.com",
+			"phoneNumber": "0653173165",
+			"passwords": "123456",
+			"joinDate": "2026-06-27",
+			"address": "145 Đường Nguyễn Khuyến, Dĩ An, Bình Dương",
+			"bankName": "BIDV",
+			"bankAccount": "10192011221",
+			"nameAccount": "PHAN HOÀNG ANH THƯ",
+			"greenCoins": 10,
+			"isVerifiedVNU": false
+		},
+		{
+			"customerID": "CM000004",
+			"fullName": "Diệp Túy Kha",
+			"userName": "dieptuykha",
+			"email": "dieptuykha@gmail.com",
+			"phoneNumber": "0912873138",
+			"passwords": "123456",
+			"joinDate": "2026-06-28",
+			"address": "125 Đường Nguyễn Khuyến, Nha Trang, Khánh Hòa",
+			"bankName": "Vietcombank",
+			"bankAccount": "137813684625",
+			"nameAccount": "DIỆP TÚY KHA",
+			"greenCoins": 0,
+			"isVerifiedVNU": false
+		}
+    ]
+  },
+  {
+    "repairstores": 
+	[
+		{
+			"storeID": "BR000001",
+			"storeName": "FastFix",
+			"userName": "fastfix",
+			"email": "fastfix@gmail.com",
+			"phoneNumber": "0928107387",
+			"passwords": "123456",
+			"joinDate": "2026-06-26",
+			"address": "123 Đường Xanh, Quận 1, TP.HCM",
+			"bankName": "BIDV",
+			"bankAccount": "08368083103",
+			"taxCode": "81686381",
+			"legalRep": "Nguyễn Thị Hoa"
+		},
+		{
+			"storeID": "BR000002",
+			"storeName": "RepairHub",
+			"userName": "repairhub",
+			"email": "repairhub@gmail.com",
+			"phoneNumber": "0982267256",
+			"passwords": "123456",
+			"joinDate": "2026-06-27",
+			"address": "456 Đường Verde, Quận 2, TP.HCM",
+			"bankName": "Vietcombank",
+			"bankAccount": "137813684625",
+			"taxCode": "1317846824",
+			"legalRep": "Trần Văn Minh"
+		}
+    ]
+  }
+]

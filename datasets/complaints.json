@@ -1,0 +1,18 @@
+[
+    {
+        "complaintID": "CP000001",
+        "customerID": "CM000001",
+        "orderID": "OD000001",
+        "date": "2026-07-04",
+        "reason": "Wrong product received",
+        "status": "Pending"
+    },
+    {
+        "complaintID": "CP000002",
+        "customerID": "CM000002",
+        "orderID": "RP000001",
+        "date": "2026-07-05",
+        "reason": "Product not functioning properly",
+        "status": "In Progress"
+    }
+]

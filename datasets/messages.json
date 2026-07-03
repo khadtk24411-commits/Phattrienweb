@@ -1,0 +1,30 @@
+[
+    {
+        "messageID": "MS000001",
+        "chatID": "CHAT000001",
+        "senderID": "CM000001",
+        "content": "Is this laptop still available?",
+        "timestamp": "2026-07-01T10:00:00"
+    },
+    {
+        "messageID": "MS000002",
+        "chatID": "CHAT000001",
+        "senderID": "BR000001",
+        "content": "Yes, it is available.",
+        "timestamp": "2026-07-01T10:05:00"
+    },
+    {
+        "messageID": "MS000003",
+        "chatID": "CHAT000002",
+        "senderID": "CM000001",
+        "content": "Can you provide more details about the product?",
+        "timestamp": "2026-07-02T14:00:00"
+    },
+    {
+        "messageID": "MS000004",
+        "chatID": "CHAT000002",
+        "senderID": "CM000003",
+        "content": "Sure, what would you like to know?",
+        "timestamp": "2026-07-02T14:05:00"
+    }
+]

@@ -1,0 +1,12 @@
+[
+    {
+        "repairOrderID": "RP000001",
+        "requestID": "RQ000001",
+        "storeID": "BR000001",
+        "pickupDate": "2024-06-18",
+        "pickupAddress": "123 Đường 3/2, Quận 1, TP.HCM",
+        "finalCost": "800.000đ",
+        "status": "In Progress",
+        "orderDate": "2024-06-15"
+    }
+]

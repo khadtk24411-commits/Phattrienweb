@@ -1,0 +1,28 @@
+[
+    {
+        "assessmentID": "AI000001",
+        "requestID": "RQ000001",
+        "estimatedRepairCost": "800.000đ",
+        "estimatedResalePrice": "500.000đ",
+        "estimatedRecycleCost": "20.000đ",
+        "co2Reduced": "5kg",
+        "recommendedAction": "Repair"
+    },
+    {
+        "assessmentID": "AI000002",
+        "requestID": "RQ000002",
+        "estimatedRepairCost": "1.000.0000đ",
+        "estimatedResalePrice": "800.000đ",
+        "estimatedRecycleCost": "50.000đ",
+        "recommendedAction": "Resale"
+    },
+    {
+        "assessmentID": "AI000003",
+        "requestID": "RQ000003",
+        "estimatedRepairCost": "500.000đ",
+        "estimatedResalePrice": "300.000đ",
+        "estimatedRecycleCost": "10.000đ",
+        "recommendedAction": "Recycle"
+    }
+
+]
