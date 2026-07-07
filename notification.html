@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REshare — Thông báo</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<!-- Inter -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --green:#16A34A;
+    --green-light:#ECFDF5;
+    --blue:#2563EB;
+    --border:#E5E7EB;
+    --bg:#F8FAFC;
+    --red:#DC2626;
+    --text-main:#111827;
+    --text-sub:#6B7280;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    font-family:'Inter', sans-serif;
+    background:var(--bg);
+    color:var(--text-main);
+  }
+
+  /* ---------- HEADER (context only) ---------- */
+  .top-header{
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    height:64px;
+  }
+  .brand{
+    font-weight:800;
+    font-size:22px;
+    color:var(--green);
+    letter-spacing:-0.5px;
+  }
+  .brand span{ color:var(--text-main); }
+  .nav-link-custom{
+    color:#374151;
+    font-weight:500;
+    font-size:14.5px;
+    text-decoration:none;
+    padding:8px 4px;
+  }
+  .nav-link-custom.active{
+    color:var(--green);
+    font-weight:600;
+  }
+  .search-box{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:8px 14px;
+    font-size:14px;
+    width:260px;
+  }
+  .icon-btn{
+    width:40px; height:40px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    color:#374151;
+    background:transparent;
+    border:none;
+    position:relative;
+    transition:background .2s;
+  }
+  .icon-btn:hover{ background:var(--bg); }
+
+  /* ---------- NOTIFICATION BELL + BADGE ---------- */
+  #bellWrapper{ position:relative; }
+  .notif-count{
+    position:absolute;
+    top:2px; right:2px;
+    background:var(--red);
+    color:#fff;
+    font-size:10px;
+    font-weight:700;
+    min-width:16px;
+    height:16px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+    border:2px solid #fff;
+  }
+
+  /* ---------- PANEL ---------- */
+  #notifPanel{
+    position:absolute;
+    top:56px;
+    right:0;
+    width:380px;
+    max-height:550px;
+    background:#fff;
+    border-radius:16px;
+    box-shadow:0 20px 45px rgba(15,23,42,.15), 0 4px 12px rgba(15,23,42,.06);
+    border:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-8px) scale(0.98);
+    transition:opacity .22s ease, transform .22s ease, visibility .22s;
+    z-index:1000;
+    overflow:hidden;
+  }
+  #notifPanel.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0) scale(1);
+  }
+
+  .notif-header{
+    padding:16px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-shrink:0;
+  }
+  .notif-header h6{
+    margin:0;
+    font-weight:700;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .unread-pill{
+    background:var(--green);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    border-radius:20px;
+    padding:1px 8px;
+  }
+  .mark-read-btn{
+    background:none;
+    border:none;
+    color:var(--blue);
+    font-size:12.5px;
+    font-weight:600;
+    padding:0;
+  }
+  .mark-read-btn:hover{ text-decoration:underline; }
+
+  .notif-body{
+    overflow-y:auto;
+    flex:1;
+    padding:8px 0 4px;
+  }
+  .notif-body::-webkit-scrollbar{ width:6px; }
+  .notif-body::-webkit-scrollbar-thumb{ background:#D1D5DB; border-radius:10px; }
+  .notif-body::-webkit-scrollbar-track{ background:transparent; }
+
+  .category-label{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--text-sub);
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    padding:12px 18px 6px;
+  }
+
+  .notif-item{
+    display:flex;
+    gap:12px;
+    padding:12px 18px;
+    margin:0 8px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:background .2s ease;
+    position:relative;
+  }
+  .notif-item:hover{ background:#F3F4F6; }
+  .notif-item.unread{ background:var(--green-light); }
+  .notif-item.unread:hover{ background:#DCFCE9; }
+
+  .notif-icon{
+    width:40px; height:40px;
+    min-width:40px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
+    background:#fff;
+    border:1px solid var(--border);
+    color:var(--green);
+  }
+  .notif-item.unread .notif-icon{
+    background:#fff;
+    border-color:#BBF7D0;
+  }
+
+  .notif-content{ flex:1; min-width:0; }
+  .notif-title{
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--text-main);
+    margin-bottom:2px;
+    line-height:1.35;
+  }
+  .notif-desc{
+    font-size:12.5px;
+    color:var(--text-sub);
+    line-height:1.4;
+    margin-bottom:6px;
+  }
+  .notif-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .notif-time{
+    font-size:11.5px;
+    color:#9CA3AF;
+  }
+  .status-badge{
+    font-size:10.5px;
+    font-weight:700;
+    padding:1px 8px;
+    border-radius:20px;
+  }
+  .badge-completed{ background:#E0E7FF; color:#4338CA; }
+  .badge-success{ background:#DCFCE7; color:#15803D; }
+  .badge-failed{ background:#FEE2E2; color:#B91C1C; }
+  .badge-preparing{ background:#FEF3C7; color:#92400E; }
+  .badge-shipping{ background:#DBEAFE; color:#1D4ED8; }
+  .badge-delivered{ background:#DCFCE7; color:#15803D; }
+
+  .unread-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--green);
+    flex-shrink:0;
+    align-self:flex-start;
+    margin-top:6px;
+  }
+
+  .notif-footer{
+    padding:12px 18px;
+    border-top:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .view-all-btn{
+    width:100%;
+    background:var(--green);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:10px;
+    font-size:13.5px;
+    font-weight:600;
+    transition:background .2s;
+  }
+  .view-all-btn:hover{ background:#128038; color:#fff; }
+
+  .empty-state{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--text-sub);
+    display:none;
+  }
+  .empty-state i{
+    font-size:34px;
+    color:#D1D5DB;
+    margin-bottom:12px;
+  }
+
+  /* Fade in + slide down animation on first mount */
+  @keyframes fadeSlideDown{
+    from{ opacity:0; transform:translateY(-12px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media (max-width: 480px){
+    #notifPanel{
+      width:94vw;
+      right:-56px;
+      max-height:70vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ DEMO HEADER (context matching REshare) ============ -->
+<header class="top-header">
+  <div class="container-fluid px-4 h-100">
+    <div class="d-flex align-items-center justify-content-between h-100">
+
+      <div class="d-flex align-items-center gap-4">
+        <span class="brand">RE<span>share</span></span>
+        <nav class="d-none d-lg-flex align-items-center gap-4 ms-3">
+          <a href="#" class="nav-link-custom">Trang chủ</a>
+          <a href="#" class="nav-link-custom">Marketplace</a>
+          <a href="#" class="nav-link-custom active">Sửa chữa &amp; tái chế</a>
+          <a href="#" class="nav-link-custom">Môi trường</a>
+        </nav>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <div class="search-box d-none d-md-flex align-items-center gap-2">
+          <input type="text" placeholder="Tìm kiếm..." class="border-0 bg-transparent flex-grow-1" style="outline:none; font-size:14px;">
+          <i class="fa-solid fa-magnifying-glass text-secondary"></i>
+        </div>
+
+        <button class="icon-btn">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </button>
+
+        <div id="bellWrapper">
+          <button class="icon-btn" id="bellBtn" aria-label="Thông báo">
+            <i class="fa-solid fa-bell"></i>
+            <span class="notif-count" id="notifCount">8</span>
+          </button>
+
+          <!-- ============ NOTIFICATION PANEL ============ -->
+          <div id="notifPanel">
+
+            <div class="notif-header">
+              <h6>Thông báo <span class="unread-pill" id="unreadPill">8</span></h6>
+              <button class="mark-read-btn" id="markAllReadBtn">Đánh dấu tất cả đã đọc</button>
+            </div>
+
+            <div class="notif-body" id="notifBody">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="empty-state" id="emptyState">
+              <i class="fa-regular fa-bell-slash"></i>
+              <div class="fw-semibold" style="font-size:13.5px;">Không có thông báo nào</div>
+            </div>
+
+            <div class="notif-footer">
+              <button class="view-all-btn" id="viewAllBtn">Xem tất cả thông báo</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2" style="cursor:pointer;">
+          <img src="https://i.pravatar.cc/64?img=13" class="rounded-circle" width="34" height="34" alt="avatar">
+          <span class="d-none d-md-inline fw-semibold" style="font-size:14px;">Nguyễn An</span>
+          <i class="fa-solid fa-chevron-down text-secondary" style="font-size:11px;"></i>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid px-4 pt-4">
+  <div class="text-secondary" style="font-size:13.5px;">
+    Trang chủ &gt; Sửa chữa &amp; tái chế &gt; Kiểm tra bằng AI &gt; Kết quả chẩn đoán
+  </div>
+  <p class="text-muted mt-3" style="font-size:13px;">Nhấn vào biểu tượng chuông ở góc trên bên phải để xem bảng thông báo.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+
+  // ---------------------------------------------------------------
+  // DATA: notifications grouped by category
+  // ---------------------------------------------------------------
+  const notifications = [
+    {
+      category: "Đăng bán sản phẩm",
+      icon: "fa-store",
+      items: [
+        { id:1, title:"Sản phẩm của bạn đã được phê duyệt.", desc:"Sản phẩm của bạn đã vượt qua bước kiểm duyệt và hiện đã hiển thị trên Marketplace.", time:"5 phút trước", unread:true, link:"seller-dashboard.html" },
+        { id:2, title:"Sản phẩm Laptop Dell XPS đã được đăng bán thành công.", desc:"Sản phẩm của bạn đã được đăng tải và sẵn sàng nhận yêu cầu mua.", time:"1 giờ trước", unread:true, link:"seller-dashboard.html" },
+        { id:3, title:"Yêu cầu chỉnh sửa thông tin sản phẩm.", desc:"Vui lòng cập nhật lại mô tả và hình ảnh sản phẩm theo yêu cầu.", time:"Hôm qua", unread:false, link:"seller-dashboard.html" },
+      ]
+    },
+    {
+      category: "Yêu cầu mua hàng",
+      icon: "fa-cart-shopping",
+      items: [
+        { id:4, title:"Bạn vừa nhận được một yêu cầu mua hàng.", desc:"Một khách hàng quan tâm đến sản phẩm bạn đang đăng bán.", time:"10 phút trước", unread:true, link:"order.html" },
+        { id:5, title:"Đơn hàng #RE20315 đang chờ xác nhận.", desc:"Vui lòng xác nhận đơn hàng trong vòng 24 giờ.", time:"3 giờ trước", unread:true, link:"order.html" },
+        { id:6, title:"Khách hàng đã thanh toán thành công.", desc:"Đơn hàng #RE20301 đã được thanh toán, chuẩn bị giao hàng.", time:"Hôm qua", unread:false, link:"order.html" },
+      ]
+    },
+    {
+      category: "Thu mua & tái chế rác điện tử",
+      icon: "fa-recycle",
+      items: [
+        { id:7, title:"Lịch thu gom đã được xác nhận.", desc:"Đội thu gom sẽ đến vào 14:00 ngày mai.", time:"30 phút trước", unread:true, link:"repair-detail.html" },
+        { id:8, title:"Nhân viên đang đến địa điểm của bạn.", desc:"Nhân viên thu gom đang trên đường di chuyển đến bạn.", time:"2 giờ trước", unread:false, link:"repair-detail.html", badge:{text:"Hoàn tất", cls:"badge-completed"} },
+        { id:9, title:"Yêu cầu thu mua đã xử lý xong.", desc:"Thiết bị điện tử của bạn đã được thu mua và xử lý.", time:"2 ngày trước", unread:false, link:"repair-detail.html", badge:{text:"Hoàn tất", cls:"badge-completed"} },
+      ]
+    },
+    {
+      category: "Sửa chữa",
+      icon: "fa-screwdriver-wrench",
+      items: [
+        { id:10, title:"Thiết bị Laptop Asus TUF đã sửa chữa xong.", desc:"Bạn có thể đến nhận thiết bị hoặc yêu cầu giao tận nơi.", time:"1 ngày trước", unread:false, link:"repair-detail.html", badge:{text:"Hoàn tất", cls:"badge-completed"} },
+        { id:11, title:"Thiết bị iPhone 11 đã hoàn tất kiểm tra.", desc:"Kết quả chẩn đoán bằng AI đã sẵn sàng để xem.", time:"2 ngày trước", unread:false, link:"repair-detail.html", badge:{text:"Hoàn tất", cls:"badge-completed"} },
+      ]
+    },
+    {
+      category: "Thanh toán",
+      icon: "fa-credit-card",
+      items: [
+        { id:12, title:"Thanh toán đơn hàng #RE10325 thành công.", desc:"Giao dịch của bạn đã được xử lý an toàn.", time:"4 giờ trước", unread:true, link:"checkout.html", badge:{text:"Thành công", cls:"badge-success"} },
+        { id:13, title:"Thanh toán thất bại. Vui lòng thử lại.", desc:"Giao dịch không thành công do lỗi kết nối ngân hàng.", time:"5 giờ trước", unread:false, link:"checkout.html", badge:{text:"Thất bại", cls:"badge-failed"} },
+        { id:14, title:"Hoàn tiền đã được xử lý.", desc:"Khoản hoàn tiền sẽ vào tài khoản trong 3-5 ngày làm việc.", time:"3 ngày trước", unread:false, link:"checkout.html", badge:{text:"Thành công", cls:"badge-success"} },
+      ]
+    },
+    {
+      category: "Vận chuyển",
+      icon: "fa-truck-fast",
+      items: [
+        { id:15, title:"Đơn hàng #RE10325 đang được giao.", desc:"Đơn vị vận chuyển đang trên đường giao đến bạn.", time:"1 giờ trước", unread:true, link:"tracking.html", badge:{text:"Đang giao", cls:"badge-shipping"} },
+        { id:16, title:"Đơn hàng đã giao thành công.", desc:"Đơn hàng #RE10299 đã được giao đến địa chỉ nhận.", time:"1 ngày trước", unread:false, link:"tracking.html", badge:{text:"Đã giao", cls:"badge-delivered"} },
+        { id:17, title:"Đơn hàng đã được xác nhận.", desc:"Đơn hàng của bạn đang được chuẩn bị để giao.", time:"2 ngày trước", unread:false, link:"tracking.html", badge:{text:"Chuẩn bị", cls:"badge-preparing"} },
+      ]
+    },
+    {
+      category: "Chat",
+      icon: "fa-comment-dots",
+      items: [
+        { id:18, title:"REShare Official vừa gửi cho bạn một tin nhắn mới.", desc:"Xem chi tiết chương trình ưu đãi tháng này.", time:"15 phút trước", unread:true, link:"chat.html" },
+        { id:19, title:"FastCare Center đã trả lời cuộc trò chuyện.", desc:"Kỹ thuật viên đã phản hồi câu hỏi về thiết bị của bạn.", time:"6 giờ trước", unread:false, link:"chat.html" },
+      ]
+    },
+  ];
+
+  // ---------------------------------------------------------------
+  // RENDER
+  // ---------------------------------------------------------------
+  const notifBody = document.getElementById('notifBody');
+  const emptyState = document.getElementById('emptyState');
+  const unreadPill = document.getElementById('unreadPill');
+  const notifCount = document.getElementById('notifCount');
+
+  function render(){
+    notifBody.innerHTML = '';
+    let totalUnread = 0;
+    let hasAny = false;
+
+    notifications.forEach(group => {
+      if(group.items.length === 0) return;
+      hasAny = true;
+
+      const label = document.createElement('div');
+      label.className = 'category-label';
+      label.textContent = group.category;
+      notifBody.appendChild(label);
+
+      group.items.forEach(item => {
+        if(item.unread) totalUnread++;
+
+        const el = document.createElement('div');
+        el.className = 'notif-item' + (item.unread ? ' unread' : '');
+        el.dataset.id = item.id;
+
+        let badgeHtml = '';
+        if(item.badge){
+          badgeHtml = `<span class="status-badge ${item.badge.cls}">${item.badge.text}</span>`;
+        }
+
+        el.innerHTML = `
+          <div class="notif-icon"><i class="fa-solid ${group.icon}"></i></div>
+          <div class="notif-content">
+            <div class="notif-title">${item.title}</div>
+            <div class="notif-desc">${item.desc}</div>
+            <div class="notif-meta">
+              <span class="notif-time">${item.time}</span>
+              ${badgeHtml}
+            </div>
+          </div>
+          ${item.unread ? '<div class="unread-dot"></div>' : ''}
+        `;
+
+        el.addEventListener('click', () => handleNotifClick(item, group));
+        notifBody.appendChild(el);
+      });
+    });
+
+    unreadPill.textContent = totalUnread;
+    unreadPill.style.display = totalUnread > 0 ? 'inline-block' : 'none';
+    notifCount.textContent = totalUnread;
+    notifCount.style.display = totalUnread > 0 ? 'flex' : 'none';
+
+    emptyState.style.display = hasAny ? 'none' : 'block';
+    notifBody.style.display = hasAny ? 'block' : 'none';
+  }
+
+  function handleNotifClick(item, group){
+    if(item.unread){
+      item.unread = false;
+      render();
+    }
+    // Simulated navigation — replace with real redirect in production
+    console.log('Navigating to:', item.link);
+    // window.location.href = item.link;
+    showToast(`Đang chuyển đến ${item.link}`);
+  }
+
+  // ---------------------------------------------------------------
+  // MARK ALL AS READ
+  // ---------------------------------------------------------------
+  document.getElementById('markAllReadBtn').addEventListener('click', () => {
+    notifications.forEach(group => group.items.forEach(item => item.unread = false));
+    render();
+  });
+
+  // ---------------------------------------------------------------
+  // VIEW ALL
+  // ---------------------------------------------------------------
+  document.getElementById('viewAllBtn').addEventListener('click', () => {
+    console.log('Navigating to notifications.html');
+    showToast('Đang chuyển đến notifications.html');
+  });
+
+  // ---------------------------------------------------------------
+  // TOGGLE PANEL (fade in + slide down)
+  // ---------------------------------------------------------------
+  const bellBtn = document.getElementById('bellBtn');
+  const notifPanel = document.getElementById('notifPanel');
+
+  bellBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    notifPanel.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if(!notifPanel.contains(e.target) && !bellBtn.contains(e.target)){
+      notifPanel.classList.remove('open');
+    }
+  });
+
+  notifPanel.addEventListener('click', (e) => e.stopPropagation());
+
+  // ---------------------------------------------------------------
+  // Simple toast for demo navigation feedback
+  // ---------------------------------------------------------------
+  function showToast(msg){
+    const toast = document.createElement('div');
+    toast.textContent = msg;
+    toast.style.cssText = `
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      background:#111827; color:#fff; padding:10px 18px; border-radius:10px;
+      font-size:13px; font-weight:500; z-index:2000; opacity:0;
+      transition:opacity .25s ease;
+    `;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.style.opacity = '1');
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => toast.remove(), 300);
+    }, 1800);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
