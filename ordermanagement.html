@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý đơn hàng | REshare</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-50:#f0fdf4;
+    --green-100:#dcfce7;
+    --green-500:#16a34a;
+    --green-600:#15803d;
+    --green-700:#116932;
+    --blue-500:#2563eb;
+    --orange-500:#f59e0b;
+    --purple-500:#7c3aed;
+    --red-500:#ef4444;
+    --gray-bg:#f8fafc;
+    --ink-900:#0f172a;
+    --ink-600:#475569;
+    --ink-400:#94a3b8;
+    --card-radius:16px;
+    --shadow-card:0 1px 2px rgba(15,23,42,.04),0 6px 20px -8px rgba(15,23,42,.10);
+    --shadow-hover:0 10px 30px -10px rgba(22,163,74,.25);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    font-family:'Be Vietnam Pro',system-ui,-apple-system,sans-serif;
+    background:var(--gray-bg);
+    color:var(--ink-900);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none;}
+  ::selection{background:var(--green-100);}
+  /* ===== Scrollbar ===== */
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:#d7dee6;border-radius:8px;}
+  ::-webkit-scrollbar-thumb:hover{background:#b9c4cf;}
+  /* ===== HEADER ===== */
+  .topbar{
+    height:68px;
+    background:#fff;
+    border-bottom:1px solid #eef1f4;
+    position:sticky;top:0;z-index:1030;
+    display:flex;align-items:center;
+    padding:0 20px;
+    gap:18px;
+  }
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.35rem;letter-spacing:-.02em;color:var(--ink-900);}
+  .brand .brand-mark{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg,var(--green-500),var(--green-700));
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;
+    box-shadow:0 4px 10px -3px rgba(22,163,74,.5);
+  }
+  .brand span.accent{color:var(--green-600);}
+  .topnav{display:flex;align-items:center;gap:26px;margin-left:6px;}
+  .topnav a{color:var(--ink-600);font-weight:500;font-size:.92rem;padding:6px 2px;border-bottom:2px solid transparent;transition:.15s;}
+  .topnav a:hover, .topnav a.active{color:var(--green-600);border-color:var(--green-500);}
+  .search-wrap{flex:1;max-width:420px;position:relative;}
+  .search-wrap input{
+    width:100%;border-radius:999px;border:1px solid #e6eaef;background:#f6f8fa;
+    padding:9px 42px 9px 16px;font-size:.88rem;transition:.15s;
+  }
+  .search-wrap input:focus{outline:none;border-color:var(--green-500);background:#fff;box-shadow:0 0 0 3px var(--green-100);}
+  .search-wrap i{position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--ink-400);font-size:.85rem;}
+  .icon-btn{
+    position:relative;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    color:var(--ink-600);background:transparent;border:none;transition:.15s;font-size:1.05rem;
+  }
+  .icon-btn:hover{background:var(--green-50);color:var(--green-600);}
+  .icon-btn .badge-dot{
+    position:absolute;top:4px;right:5px;background:var(--red-500);color:#fff;font-size:.62rem;font-weight:700;
+    min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;
+    border:2px solid #fff;
+  }
+  .user-chip{display:flex;align-items:center;gap:9px;padding:6px 10px 6px 6px;border-radius:999px;transition:.15s;cursor:pointer;}
+  .user-chip:hover{background:#f6f8fa;}
+  .user-chip img{width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid var(--green-100);}
+  .user-chip .uname{font-size:.85rem;font-weight:600;color:var(--ink-900);line-height:1.1;}
+  .user-chip .urole{font-size:.72rem;color:var(--ink-400);}
+  .mobile-toggle{display:none;}
+  /* ===== SHELL / SIDEBAR ===== */
+  .shell{display:flex;align-items:flex-start;}
+  .sidebar{
+    width:264px;flex:0 0 264px;background:#fff;border-right:1px solid #eef1f4;
+    min-height:calc(100vh - 68px);position:sticky;top:68px;padding:20px 14px 30px;
+  }
+  .sidebar .side-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-400);font-weight:700;padding:10px 12px 6px;}
+  .side-link{
+    display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;color:var(--ink-600);
+    font-weight:500;font-size:.9rem;margin-bottom:3px;transition:.15s;position:relative;cursor:pointer;
+  }
+  .side-link i{width:18px;text-align:center;font-size:1rem;color:var(--ink-400);transition:.15s;}
+  .side-link .side-count{margin-left:auto;font-size:.7rem;font-weight:700;background:#eef2f6;color:var(--ink-600);padding:2px 8px;border-radius:999px;}
+  .side-link:hover{background:var(--green-50);color:var(--green-700);}
+  .side-link:hover i{color:var(--green-600);}
+  .side-link.active{background:linear-gradient(135deg,var(--green-500),var(--green-600));color:#fff;box-shadow:var(--shadow-hover);}
+  .side-link.active i{color:#fff;}
+  .side-link.active .side-count{background:rgba(255,255,255,.25);color:#fff;}
+  .side-divider{height:1px;background:#eef1f4;margin:14px 4px;}
+  .side-logout{color:var(--red-500)!important;}
+  .side-logout i{color:var(--red-500)!important;}
+  .side-logout:hover{background:#fef2f2;}
+  /* ===== MAIN ===== */
+  .main{flex:1;min-width:0;padding:26px 28px 60px;}
+  .view-section{display:none;}
+  .view-section.active-view{display:block;animation:fadeIn .25s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .page-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:20px;}
+  .page-head h1{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin:0;}
+  .page-head p{color:var(--ink-600);font-size:.88rem;margin:2px 0 0;}
+  .stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px;}
+  .stat-card{background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow-card);padding:16px 18px;display:flex;align-items:center;gap:14px;}
+  .stat-card .stat-ic{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;flex:0 0 44px;}
+  .stat-card .stat-num{font-size:1.25rem;font-weight:800;line-height:1;}
+  .stat-card .stat-lbl{font-size:.76rem;color:var(--ink-600);margin-top:3px;}
+  /* Tabs */
+  .order-tabs{
+    display:flex;gap:6px;background:#fff;border-radius:14px;padding:6px;box-shadow:var(--shadow-card);
+    margin-bottom:20px;overflow-x:auto;
+  }
+  .order-tabs::-webkit-scrollbar{display:none;}
+  .order-tab{
+    border:none;background:transparent;padding:10px 18px;border-radius:10px;font-size:.86rem;font-weight:600;
+    color:var(--ink-600);white-space:nowrap;transition:.15s;position:relative;
+  }
+  .order-tab:hover{color:var(--green-600);background:var(--green-50);}
+  .order-tab.active{background:var(--green-500);color:#fff;box-shadow:0 6px 14px -6px rgba(22,163,74,.5);}
+  .order-tab .cnt{margin-left:6px;font-size:.72rem;opacity:.85;}
+  /* Order card */
+  .order-card{
+    background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow-card);margin-bottom:18px;
+    overflow:hidden;transition:.2s;border:1px solid #f1f4f7;
+  }
+  .order-card:hover{box-shadow:0 14px 34px -14px rgba(15,23,42,.16);transform:translateY(-1px);}
+  .order-card-head{
+    display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;padding:16px 20px;border-bottom:1px dashed #eef1f4;background:#fbfcfd;
+  }
+  .oc-id{font-weight:700;font-size:.92rem;}
+  .oc-id .fa-circle{font-size:.3rem;vertical-align:middle;color:var(--ink-400);margin:0 8px;}
+  .oc-meta{font-size:.8rem;color:var(--ink-600);display:flex;align-items:center;gap:6px;}
+  .oc-meta i{color:var(--ink-400);width:14px;}
+  .oc-head-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+  .status-badge{
+    font-size:.74rem;font-weight:700;padding:6px 13px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;
+    white-space:nowrap;
+  }
+  .status-badge i{font-size:.6rem;}
+  .st-pending{background:#fff7ed;color:#c2410c;}
+  .st-preparing{background:#eff6ff;color:#1d4ed8;}
+  .st-shipping{background:#f5f3ff;color:#6d28d9;}
+  .st-delivered{background:#ecfdf5;color:#047857;}
+  .st-completed{background:var(--green-100);color:var(--green-700);}
+  .st-refund{background:#fef2f2;color:#b91c1c;}
+  .st-cancelled{background:#f1f5f9;color:#64748b;}
+  .order-card-body{padding:18px 20px;}
+  .product-row{display:flex;gap:14px;align-items:center;padding:10px 0;}
+  .product-row + .product-row{border-top:1px solid #f5f7f9;}
+  .product-row img{width:64px;height:64px;border-radius:12px;object-fit:cover;background:#f1f4f7;flex:0 0 64px;border:1px solid #f1f4f7;}
+  .product-row .p-name{font-weight:600;font-size:.88rem;margin-bottom:3px;}
+  .product-row .p-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:5px;}
+  .p-tag{font-size:.68rem;font-weight:600;padding:2px 9px;border-radius:999px;background:#f1f5f9;color:var(--ink-600);}
+  .p-tag.warranty{background:#eff6ff;color:#1d4ed8;}
+  .p-tag.repair{background:#fffbeb;color:#b45309;}
+  .p-price{font-size:.86rem;font-weight:700;white-space:nowrap;text-align:right;}
+  .p-qty{font-size:.76rem;color:var(--ink-400);text-align:right;}
+  .order-card-summary{
+    background:#fbfcfd;border-top:1px dashed #eef1f4;padding:14px 20px;font-size:.83rem;
+  }
+  .sum-line{display:flex;justify-content:space-between;padding:3px 0;color:var(--ink-600);}
+  .sum-line.total{color:var(--ink-900);font-weight:800;font-size:.98rem;padding-top:8px;margin-top:4px;border-top:1px solid #eef1f4;}
+  .sum-line.total .amt{color:var(--green-600);}
+  .order-card-actions{
+    display:flex;flex-wrap:wrap;gap:8px;padding:14px 20px;border-top:1px solid #f1f4f7;
+  }
+  .btn-pill{
+    border-radius:10px;font-size:.8rem;font-weight:600;padding:8px 14px;border:1px solid #e2e8f0;
+    background:#fff;color:var(--ink-600);transition:.15s;white-space:nowrap;
+  }
+  .btn-pill:hover{border-color:var(--green-500);color:var(--green-600);background:var(--green-50);}
+  .btn-pill.primary{background:var(--green-500);border-color:var(--green-500);color:#fff;}
+  .btn-pill.primary:hover{background:var(--green-600);border-color:var(--green-600);color:#fff;}
+  .btn-pill.secondary{background:var(--blue-500);border-color:var(--blue-500);color:#fff;}
+  .btn-pill.secondary:hover{background:#1d4ed8;border-color:#1d4ed8;color:#fff;}
+  .btn-pill.danger{color:var(--red-500);border-color:#fecaca;}
+  .btn-pill.danger:hover{background:#fef2f2;border-color:var(--red-500);color:var(--red-500);}
+  .empty-state{text-align:center;padding:70px 20px;color:var(--ink-400);}
+  .empty-state i{font-size:2.6rem;margin-bottom:14px;color:#dbe3ea;}
+  .empty-state h5{color:var(--ink-600);font-weight:700;}
+  /* ===== MODALS ===== */
+  .modal-content{border-radius:20px;border:none;overflow:hidden;}
+  .modal-header{border-bottom:1px solid #f1f4f7;padding:18px 24px;}
+  .modal-header .modal-title{font-weight:800;font-size:1.08rem;}
+  .modal-body{padding:22px 24px;}
+  .modal-footer{border-top:1px solid #f1f4f7;padding:16px 24px;}
+  .section-label{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-400);margin-bottom:10px;}
+  /* Timeline */
+  .tracking-timeline{list-style:none;padding:0;margin:0;position:relative;}
+  .tracking-timeline li{position:relative;padding-left:42px;padding-bottom:26px;}
+  .tracking-timeline li:last-child{padding-bottom:2px;}
+  .tracking-timeline li::before{
+    content:"";position:absolute;left:14px;top:26px;bottom:0;width:2px;background:#e5eaef;
+  }
+  .tracking-timeline li:last-child::before{display:none;}
+  .tracking-timeline li.done::before{background:var(--green-500);}
+  .t-dot{
+    position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:var(--ink-400);
+    display:flex;align-items:center;justify-content:center;font-size:.78rem;border:3px solid #fff;box-shadow:0 0 0 1px #e5eaef;
+  }
+  .tracking-timeline li.done .t-dot{background:var(--green-500);color:#fff;box-shadow:0 0 0 1px var(--green-500);}
+  .tracking-timeline li.current .t-dot{background:#fff;color:var(--green-600);border-color:var(--green-500);box-shadow:0 0 0 4px var(--green-100);animation:pulse 1.6s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(22,163,74,.4);}70%{box-shadow:0 0 0 8px rgba(22,163,74,0);}100%{box-shadow:0 0 0 0 rgba(22,163,74,0);}}
+  .t-title{font-weight:700;font-size:.88rem;}
+  .t-time{font-size:.76rem;color:var(--ink-400);margin-top:1px;}
+  .t-desc{font-size:.78rem;color:var(--ink-600);margin-top:3px;}
+  .tracking-timeline li:not(.done):not(.current) .t-title{color:var(--ink-400);}
+  .track-info-card{background:var(--green-50);border:1px solid var(--green-100);border-radius:14px;padding:16px;margin-bottom:18px;}
+  .track-info-card .ti-row{display:flex;justify-content:space-between;font-size:.83rem;padding:5px 0;}
+  .track-info-card .ti-row span:first-child{color:var(--ink-600);}
+  .track-info-card .ti-row span:last-child{font-weight:700;}
+  .map-placeholder{
+    height:160px;border-radius:14px;background:
+      linear-gradient(#eef2f6 1px,transparent 1px) 0 0/24px 24px,
+      linear-gradient(90deg,#eef2f6 1px,transparent 1px) 0 0/24px 24px,
+      #f8fafc;
+    display:flex;align-items:center;justify-content:center;flex-direction:column;color:var(--ink-400);
+    border:1px dashed #dbe3ea;position:relative;overflow:hidden;
+  }
+  .map-placeholder i{font-size:1.6rem;color:var(--green-500);margin-bottom:6px;}
+  .map-pin-ping{position:absolute;width:14px;height:14px;border-radius:50%;background:var(--green-500);opacity:.35;animation:pulse 1.6s infinite;}
+  /* Upload dropzone */
+  .upload-zone{
+    border:2px dashed #d9e0e7;border-radius:14px;padding:26px;text-align:center;color:var(--ink-400);
+    background:#fbfcfd;transition:.15s;cursor:pointer;
+  }
+  .upload-zone:hover{border-color:var(--green-500);background:var(--green-50);color:var(--green-600);}
+  .upload-zone i{font-size:1.6rem;margin-bottom:8px;display:block;}
+  .upload-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .upload-preview .thumb{
+    width:64px;height:64px;border-radius:10px;background:#eef2f6;position:relative;overflow:hidden;
+    display:flex;align-items:center;justify-content:center;color:var(--ink-400);font-size:1.2rem;border:1px solid #e5eaef;
+  }
+  .upload-preview .thumb .rm{
+    position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:rgba(15,23,42,.6);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:.6rem;border:none;
+  }
+  .refund-status-track{display:flex;align-items:center;gap:0;margin-bottom:20px;}
+  .rst-step{flex:1;text-align:center;position:relative;}
+  .rst-step .rst-dot{width:30px;height:30px;border-radius:50%;background:#f1f5f9;color:var(--ink-400);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:.8rem;position:relative;z-index:2;}
+  .rst-step.active .rst-dot{background:var(--green-500);color:#fff;}
+  .rst-step .rst-lbl{font-size:.72rem;color:var(--ink-400);font-weight:600;}
+  .rst-step.active .rst-lbl{color:var(--green-700);}
+  .rst-step::after{content:"";position:absolute;top:15px;left:50%;width:100%;height:2px;background:#e5eaef;z-index:1;}
+  .rst-step:last-child::after{display:none;}
+  .rst-step.active::after{background:var(--green-500);}
+  .rst-step.rejected .rst-dot{background:var(--red-500);color:#fff;}
+  .rst-step.rejected .rst-lbl{color:var(--red-500);}
+  .history-item{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #f1f4f7;}
+  .history-item:last-child{border-bottom:none;}
+  .history-item .hi-ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 38px;font-size:.95rem;}
+  .history-item .hi-title{font-weight:700;font-size:.86rem;}
+  .history-item .hi-sub{font-size:.78rem;color:var(--ink-600);margin-top:1px;}
+  .history-item .hi-time{font-size:.72rem;color:var(--ink-400);margin-left:auto;white-space:nowrap;}
+  /* Notification dropdown */
+  .notif-menu{width:360px;padding:0;border-radius:16px;border:none;box-shadow:0 20px 50px -14px rgba(15,23,42,.25);overflow:hidden;}
+  .notif-head{padding:14px 18px;border-bottom:1px solid #f1f4f7;display:flex;align-items:center;justify-content:space-between;}
+  .notif-head strong{font-size:.92rem;}
+  .notif-head a{font-size:.76rem;color:var(--green-600);font-weight:600;}
+  .notif-list{max-height:340px;overflow-y:auto;}
+  .notif-item{display:flex;gap:12px;padding:13px 18px;border-bottom:1px solid #f6f8fa;transition:.15s;}
+  .notif-item:hover{background:#f8fafc;}
+  .notif-item.unread{background:var(--green-50);}
+  .notif-item .ni-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:0 0 36px;}
+  .notif-item .ni-title{font-size:.83rem;font-weight:700;}
+  .notif-item .ni-desc{font-size:.78rem;color:var(--ink-600);margin-top:1px;}
+  .notif-item .ni-time{font-size:.7rem;color:var(--ink-400);margin-top:3px;}
+  .user-menu{border-radius:14px;border:none;box-shadow:0 16px 40px -12px rgba(15,23,42,.22);padding:8px;}
+  .user-menu .dropdown-item{border-radius:9px;font-size:.85rem;padding:9px 12px;}
+  .user-menu .dropdown-item:hover{background:var(--green-50);color:var(--green-700);}
+  /* Offcanvas sidebar (mobile) */
+  .offcanvas .sidebar{position:static;min-height:auto;border:none;width:100%;flex:none;}
+  /* ===== Dashboard-specific ===== */
+  .welcome-card{
+    background:linear-gradient(135deg,var(--green-600),var(--green-500));
+    border-radius:var(--card-radius);padding:24px 26px;color:#fff;margin-bottom:22px;
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+    box-shadow:var(--shadow-hover);
+  }
+  .welcome-card h2{font-weight:800;font-size:1.3rem;margin:0 0 4px;}
+  .welcome-card p{margin:0;opacity:.92;font-size:.88rem;}
+  .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px;}
+  .quick-card{
+    background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow-card);padding:20px;cursor:pointer;
+    transition:.2s;border:1px solid #f1f4f7;
+  }
+  .quick-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px -14px rgba(15,23,42,.18);border-color:var(--green-100);}
+  .quick-card .qc-ic{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;margin-bottom:12px;}
+  .quick-card .qc-title{font-weight:700;font-size:.94rem;margin-bottom:4px;}
+  .quick-card .qc-desc{font-size:.8rem;color:var(--ink-600);}
+  .section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .section-heading h6{font-weight:800;font-size:1rem;margin:0;}
+  .section-heading a{font-size:.82rem;font-weight:600;color:var(--green-600);}
+  .mini-order-row{display:flex;align-items:center;gap:14px;background:#fff;border-radius:14px;box-shadow:var(--shadow-card);padding:14px 16px;margin-bottom:10px;border:1px solid #f1f4f7;}
+  .mini-order-row img{width:52px;height:52px;border-radius:10px;object-fit:cover;flex:0 0 52px;}
+  .mini-order-row .mo-id{font-weight:700;font-size:.86rem;}
+  .mini-order-row .mo-name{font-size:.8rem;color:var(--ink-600);}
+  .mini-order-row .mo-right{margin-left:auto;text-align:right;}
+  /* Tracking overview cards */
+  .ship-card{background:#fff;border-radius:var(--card-radius);box-shadow:var(--shadow-card);padding:18px 20px;margin-bottom:16px;border:1px solid #f1f4f7;}
+  .ship-card .sc-top{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px;}
+  .ship-progress{display:flex;gap:5px;margin:12px 0;}
+  .ship-progress span{flex:1;height:6px;border-radius:4px;background:#eef1f4;}
+  .ship-progress span.filled{background:var(--green-500);}
+  @media (max-width:991px){
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    .sidebar{display:none;}
+    .topnav{display:none;}
+    .mobile-toggle{display:flex;}
+    .search-wrap{max-width:none;}
+    .quick-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:576px){
+    .stat-strip{grid-template-columns:1fr 1fr;}
+    .main{padding:18px 14px 50px;}
+    .order-card-head{padding:14px;}
+    .order-card-body{padding:14px;}
+    .order-card-summary{padding:12px 14px;}
+    .order-card-actions{padding:12px 14px;}
+    .oc-head-right{margin-left:0;width:100%;justify-content:space-between;}
+    .notif-menu{width:88vw;}
+    .quick-grid{grid-template-columns:1fr;}
+    .welcome-card{padding:20px;}
+  }
+</style>
+</head>
+<body>
+<!-- ============= HEADER ============= -->
+<header class="topbar">
+  <button class="btn icon-btn mobile-toggle" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-label="Mở menu">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <a href="#" class="brand">
+    <span class="brand-mark"><i class="fa-solid fa-leaf"></i></span>
+    RE<span class="accent">share</span>
+  </a>
+  <nav class="topnav">
+    <a href="#">Trang chủ</a>
+    <a href="#">Marketplace</a>
+    <a href="#">Sửa chữa &amp; tái chế</a>
+    <a href="#" class="active">Đơn hàng</a>
+  </nav>
+  <div class="search-wrap d-none d-md-block">
+    <input type="text" placeholder="Tìm kiếm đơn hàng, sản phẩm...">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <div class="ms-auto d-flex align-items-center gap-1">
+    <button class="icon-btn d-md-none" aria-label="Tìm kiếm"><i class="fa-solid fa-magnifying-glass"></i></button>
+    <div class="dropdown">
+      <button class="icon-btn" data-bs-toggle="dropdown" aria-label="Giỏ hàng">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge-dot">3</span>
+      </button>
+    </div>
+    <div class="dropdown">
+      <button class="icon-btn" data-bs-toggle="dropdown" aria-label="Thông báo">
+        <i class="fa-regular fa-bell"></i>
+        <span class="badge-dot">4</span>
+      </button>
+      <div class="dropdown-menu dropdown-menu-end notif-menu">
+        <div class="notif-head">
+          <strong>Thông báo</strong>
+          <a href="#">Đánh dấu đã đọc</a>
+        </div>
+        <div class="notif-list">
+          <div class="notif-item unread">
+            <div class="ni-ic" style="background:#eff6ff;color:#1d4ed8;"><i class="fa-solid fa-truck-fast"></i></div>
+            <div>
+              <div class="ni-title">Đơn hàng #RS-20548 đã được giao vận</div>
+              <div class="ni-desc">Đơn vị vận chuyển đã lấy hàng và đang trên đường giao.</div>
+              <div class="ni-time">5 phút trước</div>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="ni-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <div class="ni-title">Đơn hàng #RS-20531 đã giao thành công</div>
+              <div class="ni-desc">Cảm ơn bạn đã mua sắm tại REshare. Hãy đánh giá sản phẩm nhé!</div>
+              <div class="ni-time">2 giờ trước</div>
+            </div>
+          </div>
+          <div class="notif-item unread">
+            <div class="ni-ic" style="background:#f5f3ff;color:#6d28d9;"><i class="fa-solid fa-rotate-left"></i></div>
+            <div>
+              <div class="ni-title">Yêu cầu hoàn tiền #RF-1092 đã được duyệt</div>
+              <div class="ni-desc">Số tiền 850.000đ sẽ được hoàn về ví MoMo trong 24h.</div>
+              <div class="ni-time">Hôm qua</div>
+            </div>
+          </div>
+          <div class="notif-item">
+            <div class="ni-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-comment-dots"></i></div>
+            <div>
+              <div class="ni-title">Khiếu nại #KN-0087 có cập nhật mới</div>
+              <div class="ni-desc">Người bán vừa phản hồi khiếu nại về sản phẩm lỗi.</div>
+              <div class="ni-time">2 ngày trước</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dropdown">
+      <div class="user-chip" data-bs-toggle="dropdown">
+        <img src="https://i.pravatar.cc/64?img=13" alt="Ảnh đại diện Nguyễn An">
+        <div class="d-none d-sm-block">
+          <div class="uname">Nguyễn An</div>
+          <div class="urole">Khách hàng thân thiết</div>
+        </div>
+        <i class="fa-solid fa-chevron-down" style="font-size:.7rem;color:var(--ink-400);"></i>
+      </div>
+      <ul class="dropdown-menu dropdown-menu-end user-menu">
+        <li><a class="dropdown-item" href="#"><i class="fa-regular fa-user me-2"></i>Tài khoản của tôi</a></li>
+        <li><a class="dropdown-item" href="#" data-view="orders"><i class="fa-regular fa-bag me-2"></i>Đơn hàng của tôi</a></li>
+        <li><a class="dropdown-item" href="#"><i class="fa-regular fa-heart me-2"></i>Sản phẩm yêu thích</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item text-danger" href="#"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Đăng xuất</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <!-- ============= SIDEBAR (desktop) ============= -->
+  <aside class="sidebar d-none d-lg-block" id="desktopSidebar">
+    <div class="side-title">Tổng quan</div>
+    <a href="#" class="side-link" data-view="dashboard"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+    <a href="#" class="side-link active" data-view="orders"><i class="fa-solid fa-bag-shopping"></i>Đơn hàng của tôi<span class="side-count">12</span></a>
+    <a href="#" class="side-link" data-view="tracking"><i class="fa-solid fa-truck"></i>Theo dõi vận chuyển<span class="side-count">3</span></a>
+    <div class="side-title">Hỗ trợ</div>
+    <a href="#" class="side-link" data-view="refund"><i class="fa-solid fa-rotate-left"></i>Hoàn tiền<span class="side-count">1</span></a>
+    <a href="#" class="side-link" data-view="complaint"><i class="fa-solid fa-triangle-exclamation"></i>Khiếu nại<span class="side-count">1</span></a>
+    <div class="side-title">Lịch sử</div>
+    <a href="#" class="side-link" data-view="completed"><i class="fa-solid fa-circle-check"></i>Đã hoàn thành</a>
+    <a href="#" class="side-link" data-view="cancelled"><i class="fa-solid fa-ban"></i>Đã hủy</a>
+    <div class="side-divider"></div>
+    <a href="#" class="side-link side-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+  </aside>
+  <!-- ============= SIDEBAR (mobile offcanvas) ============= -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+    <div class="offcanvas-header border-bottom">
+      <span class="brand"><span class="brand-mark"><i class="fa-solid fa-leaf"></i></span>RE<span class="accent">share</span></span>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+      <aside class="sidebar" id="mobileSidebarNav">
+        <div class="side-title">Tổng quan</div>
+        <a href="#" class="side-link" data-view="dashboard"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+        <a href="#" class="side-link active" data-view="orders"><i class="fa-solid fa-bag-shopping"></i>Đơn hàng của tôi<span class="side-count">12</span></a>
+        <a href="#" class="side-link" data-view="tracking"><i class="fa-solid fa-truck"></i>Theo dõi vận chuyển<span class="side-count">3</span></a>
+        <div class="side-title">Hỗ trợ</div>
+        <a href="#" class="side-link" data-view="refund"><i class="fa-solid fa-rotate-left"></i>Hoàn tiền<span class="side-count">1</span></a>
+        <a href="#" class="side-link" data-view="complaint"><i class="fa-solid fa-triangle-exclamation"></i>Khiếu nại<span class="side-count">1</span></a>
+        <div class="side-title">Lịch sử</div>
+        <a href="#" class="side-link" data-view="completed"><i class="fa-solid fa-circle-check"></i>Đã hoàn thành</a>
+        <a href="#" class="side-link" data-view="cancelled"><i class="fa-solid fa-ban"></i>Đã hủy</a>
+        <div class="side-divider"></div>
+        <a href="#" class="side-link side-logout"><i class="fa-solid fa-arrow-right-from-bracket"></i>Đăng xuất</a>
+      </aside>
+    </div>
+  </div>
+  <!-- ============= MAIN CONTENT ============= -->
+  <main class="main">
+
+    <!-- ============ VIEW: DASHBOARD ============ -->
+    <section class="view-section" id="view-dashboard">
+      <div class="welcome-card">
+        <div>
+          <h2>Chào mừng trở lại, Nguyễn An 👋</h2>
+          <p>Bạn có 3 đơn đang giao và 2 đơn chờ xác nhận cần theo dõi.</p>
+        </div>
+        <button class="btn-pill primary" data-view="orders" style="background:#fff;color:var(--green-600);border-color:#fff;"><i class="fa-solid fa-bag-shopping me-1"></i>Xem tất cả đơn hàng</button>
+      </div>
+
+      <div class="stat-strip">
+        <div class="stat-card">
+          <div class="stat-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-bag-shopping"></i></div>
+          <div><div class="stat-num">12</div><div class="stat-lbl">Tổng đơn hàng</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#eff6ff;color:#1d4ed8;"><i class="fa-solid fa-truck"></i></div>
+          <div><div class="stat-num">3</div><div class="stat-lbl">Đang giao</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div><div class="stat-num">2</div><div class="stat-lbl">Chờ xác nhận</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#fef2f2;color:#b91c1c;"><i class="fa-solid fa-rotate-left"></i></div>
+          <div><div class="stat-num">1</div><div class="stat-lbl">Hoàn tiền</div></div>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+        <div class="quick-card" data-view="tracking">
+          <div class="qc-ic" style="background:#eff6ff;color:#1d4ed8;"><i class="fa-solid fa-truck"></i></div>
+          <div class="qc-title">Theo dõi vận chuyển</div>
+          <div class="qc-desc">Xem vị trí và hành trình của 3 đơn đang giao.</div>
+        </div>
+        <div class="quick-card" data-view="refund">
+          <div class="qc-ic" style="background:#f5f3ff;color:#6d28d9;"><i class="fa-solid fa-rotate-left"></i></div>
+          <div class="qc-title">Yêu cầu hoàn tiền</div>
+          <div class="qc-desc">Theo dõi 1 yêu cầu hoàn tiền đang xử lý.</div>
+        </div>
+        <div class="quick-card" data-view="complaint">
+          <div class="qc-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <div class="qc-title">Khiếu nại</div>
+          <div class="qc-desc">1 khiếu nại đang chờ bạn phản hồi người bán.</div>
+        </div>
+      </div>
+
+      <div class="section-heading">
+        <h6>Đơn hàng gần đây</h6>
+        <a href="#" data-view="orders">Xem tất cả <i class="fa-solid fa-arrow-right ms-1"></i></a>
+      </div>
+      <div class="mini-order-row">
+        <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=200&h=200&fit=crop" alt="RAM Kingston">
+        <div>
+          <div class="mo-id">#RS-20548</div>
+          <div class="mo-name">RAM Kingston Fury Beast 16GB · 2 sản phẩm</div>
+        </div>
+        <div class="mo-right">
+          <span class="status-badge st-shipping"><i class="fa-solid fa-circle"></i>Đang giao</span>
+        </div>
+      </div>
+      <div class="mini-order-row">
+        <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=200&h=200&fit=crop" alt="Laptop Asus">
+        <div>
+          <div class="mo-id">#RS-20561</div>
+          <div class="mo-name">Laptop Asus TUF Gaming F15 · Dịch vụ sửa chữa</div>
+        </div>
+        <div class="mo-right">
+          <span class="status-badge st-pending"><i class="fa-solid fa-circle"></i>Chờ xác nhận</span>
+        </div>
+      </div>
+      <div class="mini-order-row">
+        <img src="https://images.unsplash.com/photo-1592286927505-1def25115caf?w=200&h=200&fit=crop" alt="iPhone 11">
+        <div>
+          <div class="mo-id">#RS-20531</div>
+          <div class="mo-name">iPhone 11 64GB (Tân trang)</div>
+        </div>
+        <div class="mo-right">
+          <span class="status-badge st-delivered"><i class="fa-solid fa-circle"></i>Đã giao</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: ĐƠN HÀNG CỦA TÔI ============ -->
+    <section class="view-section active-view" id="view-orders">
+      <div class="page-head">
+        <div>
+          <h1>Đơn hàng của tôi</h1>
+          <p>Theo dõi, quản lý và xử lý toàn bộ đơn hàng của bạn tại một nơi.</p>
+        </div>
+        <button class="btn-pill primary" onclick="location.reload()"><i class="fa-solid fa-rotate me-1"></i>Làm mới</button>
+      </div>
+      <!-- Stats -->
+      <div class="stat-strip">
+        <div class="stat-card">
+          <div class="stat-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-bag-shopping"></i></div>
+          <div><div class="stat-num">12</div><div class="stat-lbl">Tổng đơn hàng</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#eff6ff;color:#1d4ed8;"><i class="fa-solid fa-truck"></i></div>
+          <div><div class="stat-num">3</div><div class="stat-lbl">Đang giao</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-hourglass-half"></i></div>
+          <div><div class="stat-num">2</div><div class="stat-lbl">Chờ xác nhận</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-ic" style="background:#fef2f2;color:#b91c1c;"><i class="fa-solid fa-rotate-left"></i></div>
+          <div><div class="stat-num">1</div><div class="stat-lbl">Hoàn tiền</div></div>
+        </div>
+      </div>
+      <!-- Tabs -->
+      <div class="order-tabs" id="orderTabs">
+        <button class="order-tab active" data-filter="all">Tất cả<span class="cnt">12</span></button>
+        <button class="order-tab" data-filter="pending">Chờ xác nhận<span class="cnt">2</span></button>
+        <button class="order-tab" data-filter="preparing">Đang chuẩn bị<span class="cnt">1</span></button>
+        <button class="order-tab" data-filter="shipping">Đang giao<span class="cnt">3</span></button>
+        <button class="order-tab" data-filter="delivered">Đã giao<span class="cnt">2</span></button>
+        <button class="order-tab" data-filter="completed">Đã hoàn thành<span class="cnt">2</span></button>
+        <button class="order-tab" data-filter="refund">Hoàn tiền<span class="cnt">1</span></button>
+        <button class="order-tab" data-filter="cancelled">Đã hủy<span class="cnt">1</span></button>
+      </div>
+      <!-- Orders list -->
+      <div id="ordersList">
+        <!-- ORDER 1 - shipping -->
+        <div class="order-card" data-status="shipping">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20548 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>16/05/2025</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: TechRefurb Store</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>Ví MoMo</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-shipping"><i class="fa-solid fa-circle"></i>Đang giao</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=200&h=200&fit=crop" alt="RAM Kingston Fury Beast 16GB">
+              <div class="flex-grow-1">
+                <div class="p-name">RAM Kingston Fury Beast 16GB DDR4 3200MHz</div>
+                <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng</span></div>
+              </div>
+              <div><div class="p-price">1.190.000đ</div><div class="p-qty">x1</div></div>
+            </div>
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1531492746076-161ba9bf9bcc?w=200&h=200&fit=crop" alt="Ổ cứng SSD Samsung 970 EVO Plus">
+              <div class="flex-grow-1">
+                <div class="p-name">Ổ cứng SSD Samsung 970 EVO Plus 1TB NVMe M.2</div>
+                <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 24 tháng</span></div>
+              </div>
+              <div><div class="p-price">2.490.000đ</div><div class="p-qty">x1</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Địa chỉ giao hàng</span><span>123 Đường Xanh, P. Bến Nghé, Q.1, TP.HCM</span></div>
+            <div class="sum-line"><span>Tạm tính</span><span>3.680.000đ</span></div>
+            <div class="sum-line"><span>Phí vận chuyển</span><span>30.000đ</span></div>
+            <div class="sum-line"><span>Giảm giá</span><span>-50.000đ</span></div>
+            <div class="sum-line total"><span>Tổng cộng</span><span class="amt">3.660.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#trackingModal"><i class="fa-solid fa-truck-fast me-1"></i>Theo dõi vận chuyển</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+            <button class="btn-pill"><i class="fa-solid fa-file-arrow-down me-1"></i>Tải hoá đơn</button>
+            <button class="btn-pill secondary"><i class="fa-regular fa-comment-dots me-1"></i>Liên hệ người bán</button>
+          </div>
+        </div>
+        <!-- ORDER 2 - pending -->
+        <div class="order-card" data-status="pending">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20561 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>05/07/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: GreenFix Repair</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>Thanh toán khi nhận hàng</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-pending"><i class="fa-solid fa-circle"></i>Chờ xác nhận</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=200&h=200&fit=crop" alt="Laptop Asus TUF Gaming F15">
+              <div class="flex-grow-1">
+                <div class="p-name">Laptop Asus TUF Gaming F15 FX506LH</div>
+                <div class="p-tags">
+                  <span class="p-tag repair"><i class="fa-solid fa-screwdriver-wrench"></i> 3 lỗi được phát hiện bởi AI</span>
+                  <span class="p-tag">Sửa chữa dự kiến</span>
+                </div>
+              </div>
+              <div><div class="p-price">1.870.000đ</div><div class="p-qty">Dịch vụ sửa chữa</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Địa chỉ nhận thiết bị</span><span>123 Đường Xanh, P. Bến Nghé, Q.1, TP.HCM</span></div>
+            <div class="sum-line"><span>Chi phí sửa chữa dự kiến</span><span>1.870.000đ</span></div>
+            <div class="sum-line"><span>Phí vận chuyển</span><span>Miễn phí</span></div>
+            <div class="sum-line total"><span>Tổng cộng</span><span class="amt">1.870.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill danger" data-bs-toggle="modal" data-bs-target="#cancelConfirmModal"><i class="fa-solid fa-xmark me-1"></i>Hủy đơn</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+            <button class="btn-pill secondary"><i class="fa-regular fa-comment-dots me-1"></i>Chat hỗ trợ</button>
+          </div>
+        </div>
+        <!-- ORDER 3 - delivered -->
+        <div class="order-card" data-status="delivered">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20531 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>02/07/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: MobileCare VN</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>ZaloPay</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-delivered"><i class="fa-solid fa-circle"></i>Đã giao</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1592286927505-1def25115caf?w=200&h=200&fit=crop" alt="iPhone 11 64GB">
+              <div class="flex-grow-1">
+                <div class="p-name">iPhone 11 64GB (Tân trang)</div>
+                <div class="p-tags">
+                  <span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 6 tháng</span>
+                  <span class="p-tag repair"><i class="fa-solid fa-screwdriver-wrench"></i> 2 lỗi được phát hiện bởi AI</span>
+                </div>
+              </div>
+              <div><div class="p-price">850.000đ</div><div class="p-qty">Dịch vụ sửa chữa</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Tổng tiền sản phẩm</span><span>850.000đ</span></div>
+            <div class="sum-line"><span>Phí vận chuyển</span><span>Miễn phí</span></div>
+            <div class="sum-line total"><span>Tổng cộng</span><span class="amt">850.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Mua lại</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+            <button class="btn-pill"><i class="fa-solid fa-file-arrow-down me-1"></i>Tải hoá đơn</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#refundModal"><i class="fa-solid fa-rotate-left me-1"></i>Yêu cầu hoàn tiền</button>
+          </div>
+        </div>
+        <!-- ORDER 4 - completed -->
+        <div class="order-card" data-status="completed">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20487 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>28/06/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: TechRefurb Store</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>Thẻ tín dụng</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-completed"><i class="fa-solid fa-circle"></i>Đã hoàn thành</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=200&h=200&fit=crop" alt="Chuột Gaming Logitech G102">
+              <div class="flex-grow-1">
+                <div class="p-name">Chuột Gaming Logitech G102 Lightsync</div>
+                <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng</span></div>
+              </div>
+              <div><div class="p-price">490.000đ</div><div class="p-qty">x1</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Tổng tiền sản phẩm</span><span>490.000đ</span></div>
+            <div class="sum-line"><span>Phí vận chuyển</span><span>30.000đ</span></div>
+            <div class="sum-line total"><span>Tổng cộng</span><span class="amt">520.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Mua lại</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+            <button class="btn-pill"><i class="fa-solid fa-file-arrow-down me-1"></i>Tải hoá đơn</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#complaintModal"><i class="fa-solid fa-triangle-exclamation me-1"></i>Khiếu nại</button>
+          </div>
+        </div>
+        <!-- ORDER 4b - completed -->
+        <div class="order-card" data-status="completed">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20410 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>20/06/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: GreenFix Repair</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>Ví MoMo</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-completed"><i class="fa-solid fa-circle"></i>Đã hoàn thành</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&h=200&fit=crop" alt="Bàn phím cơ Akko">
+              <div class="flex-grow-1">
+                <div class="p-name">Bàn phím cơ AKKO 3068B (đã sửa chữa)</div>
+                <div class="p-tags"><span class="p-tag repair"><i class="fa-solid fa-screwdriver-wrench"></i> Đã thay switch</span></div>
+              </div>
+              <div><div class="p-price">350.000đ</div><div class="p-qty">Dịch vụ sửa chữa</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Chi phí sửa chữa</span><span>350.000đ</span></div>
+            <div class="sum-line total"><span>Tổng cộng</span><span class="amt">350.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Đặt lại dịch vụ</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+            <button class="btn-pill"><i class="fa-solid fa-file-arrow-down me-1"></i>Tải hoá đơn</button>
+          </div>
+        </div>
+        <!-- ORDER 5 - refund -->
+        <div class="order-card" data-status="refund">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20402 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>18/06/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: MobileCare VN</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>VNPay</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-refund"><i class="fa-solid fa-circle"></i>Hoàn tiền</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=200&h=200&fit=crop" alt="Tai nghe Bluetooth">
+              <div class="flex-grow-1">
+                <div class="p-name">Tai nghe Bluetooth Sony WH-CH510</div>
+                <div class="p-tags"><span class="p-tag" style="background:#fef2f2;color:#b91c1c;">Sản phẩm lỗi</span></div>
+              </div>
+              <div><div class="p-price">690.000đ</div><div class="p-qty">x1</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Số tiền hoàn</span><span>690.000đ</span></div>
+            <div class="sum-line"><span>Trạng thái</span><span style="color:var(--purple-500);font-weight:700;">Đang xử lý</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#refundModal"><i class="fa-regular fa-eye me-1"></i>Xem yêu cầu hoàn tiền</button>
+            <button class="btn-pill secondary"><i class="fa-regular fa-comment-dots me-1"></i>Liên hệ người bán</button>
+          </div>
+        </div>
+        <!-- ORDER 6 - cancelled -->
+        <div class="order-card" data-status="cancelled">
+          <div class="order-card-head">
+            <div class="oc-id">#RS-20355 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>10/06/2026</span></div>
+            <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: GreenFix Repair</div>
+            <div class="oc-meta"><i class="fa-solid fa-wallet"></i>Ví MoMo</div>
+            <div class="oc-head-right">
+              <span class="status-badge st-cancelled"><i class="fa-solid fa-circle"></i>Đã hủy</span>
+            </div>
+          </div>
+          <div class="order-card-body">
+            <div class="product-row">
+              <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&h=200&fit=crop" alt="Bàn phím cơ">
+              <div class="flex-grow-1">
+                <div class="p-name">Bàn phím cơ AKKO 3068B</div>
+                <div class="p-tags"><span class="p-tag">Khách hàng hủy đơn</span></div>
+              </div>
+              <div><div class="p-price">1.050.000đ</div><div class="p-qty">x1</div></div>
+            </div>
+          </div>
+          <div class="order-card-summary">
+            <div class="sum-line"><span>Tổng cộng</span><span>1.050.000đ</span></div>
+          </div>
+          <div class="order-card-actions">
+            <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Mua lại</button>
+            <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state d-none" id="emptyState">
+        <i class="fa-regular fa-folder-open"></i>
+        <h5>Không có đơn hàng nào ở mục này</h5>
+        <p class="mb-0">Đơn hàng của bạn sẽ xuất hiện ở đây.</p>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: THEO DÕI VẬN CHUYỂN ============ -->
+    <section class="view-section" id="view-tracking">
+      <div class="page-head">
+        <div>
+          <h1>Theo dõi vận chuyển</h1>
+          <p>3 đơn hàng đang trên đường đến bạn.</p>
+        </div>
+      </div>
+
+      <div class="ship-card">
+        <div class="sc-top">
+          <div class="oc-id">#RS-20548</div>
+          <span class="status-badge st-shipping"><i class="fa-solid fa-circle"></i>Đang giao</span>
+          <div class="ms-auto oc-meta"><i class="fa-solid fa-truck"></i>Giao Hàng Nhanh · GHN-88213045</div>
+        </div>
+        <div class="oc-meta mb-1"><i class="fa-solid fa-location-dot"></i>Hiện tại: Kho phân loại Q.3, TP.HCM</div>
+        <div class="ship-progress"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span></div>
+        <div class="d-flex justify-content-between">
+          <div class="oc-meta">Dự kiến giao: <strong class="ms-1">18/05/2025</strong></div>
+          <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#trackingModal">Xem chi tiết hành trình</button>
+        </div>
+      </div>
+
+      <div class="ship-card">
+        <div class="sc-top">
+          <div class="oc-id">#RS-20470</div>
+          <span class="status-badge st-shipping"><i class="fa-solid fa-circle"></i>Đang giao</span>
+          <div class="ms-auto oc-meta"><i class="fa-solid fa-truck"></i>Viettel Post · VTP-55127788</div>
+        </div>
+        <div class="oc-meta mb-1"><i class="fa-solid fa-location-dot"></i>Hiện tại: Bưu cục Q.7, TP.HCM</div>
+        <div class="ship-progress"><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span></div>
+        <div class="d-flex justify-content-between">
+          <div class="oc-meta">Dự kiến giao: <strong class="ms-1">08/07/2026</strong></div>
+          <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#trackingModal">Xem chi tiết hành trình</button>
+        </div>
+      </div>
+
+      <div class="ship-card">
+        <div class="sc-top">
+          <div class="oc-id">#RS-20465</div>
+          <span class="status-badge st-preparing"><i class="fa-solid fa-circle"></i>Đang chuẩn bị</span>
+          <div class="ms-auto oc-meta"><i class="fa-solid fa-truck"></i>J&amp;T Express · chưa cập nhật mã vận đơn</div>
+        </div>
+        <div class="oc-meta mb-1"><i class="fa-solid fa-location-dot"></i>Người bán đang đóng gói đơn hàng</div>
+        <div class="ship-progress"><span class="filled"></span><span class="filled"></span><span></span><span></span><span></span></div>
+        <div class="d-flex justify-content-between">
+          <div class="oc-meta">Dự kiến lấy hàng: <strong class="ms-1">09/07/2026</strong></div>
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal">Xem chi tiết đơn hàng</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: HOÀN TIỀN ============ -->
+    <section class="view-section" id="view-refund">
+      <div class="page-head">
+        <div>
+          <h1>Hoàn tiền</h1>
+          <p>Quản lý các yêu cầu hoàn tiền của bạn.</p>
+        </div>
+        <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#refundModal"><i class="fa-solid fa-plus me-1"></i>Tạo yêu cầu mới</button>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-head">
+          <div class="oc-id">Yêu cầu #RF-1088</div>
+          <div class="oc-head-right"><span class="status-badge" style="background:#f5f3ff;color:#6d28d9;"><i class="fa-solid fa-circle"></i>Đang xử lý</span></div>
+        </div>
+        <div class="order-card-body">
+          <div class="section-label">Trạng thái xử lý</div>
+          <div class="refund-status-track">
+            <div class="rst-step active"><div class="rst-dot"><i class="fa-solid fa-file-circle-check"></i></div><div class="rst-lbl">Đã gửi</div></div>
+            <div class="rst-step active"><div class="rst-dot"><i class="fa-solid fa-magnifying-glass"></i></div><div class="rst-lbl">Đang xử lý</div></div>
+            <div class="rst-step"><div class="rst-dot"><i class="fa-solid fa-circle-check"></i></div><div class="rst-lbl">Đã duyệt</div></div>
+            <div class="rst-step"><div class="rst-dot"><i class="fa-solid fa-sack-dollar"></i></div><div class="rst-lbl">Đã hoàn tiền</div></div>
+          </div>
+          <div class="product-row">
+            <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?w=200&h=200&fit=crop" alt="Tai nghe Bluetooth">
+            <div class="flex-grow-1">
+              <div class="p-name">Tai nghe Bluetooth Sony WH-CH510</div>
+              <div class="p-tags"><span class="p-tag" style="background:#fef2f2;color:#b91c1c;">Sản phẩm lỗi</span></div>
+            </div>
+            <div><div class="p-price">690.000đ</div></div>
+          </div>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#refundModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+          <button class="btn-pill secondary"><i class="fa-regular fa-comment-dots me-1"></i>Liên hệ người bán</button>
+        </div>
+      </div>
+
+      <div class="section-heading mt-4">
+        <h6>Lịch sử yêu cầu đã xử lý</h6>
+      </div>
+      <div class="order-card">
+        <div class="order-card-body pb-0">
+          <div class="history-item">
+            <div class="hi-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <div class="hi-title">Yêu cầu #RF-1092 đã được duyệt</div>
+              <div class="hi-sub">iPhone 11 64GB · Hoàn 850.000đ về Ví MoMo</div>
+            </div>
+            <div class="hi-time">05/07/2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: KHIẾU NẠI ============ -->
+    <section class="view-section" id="view-complaint">
+      <div class="page-head">
+        <div>
+          <h1>Khiếu nại</h1>
+          <p>Danh sách khiếu nại bạn đã gửi tới người bán / REshare.</p>
+        </div>
+        <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#complaintModal"><i class="fa-solid fa-plus me-1"></i>Tạo khiếu nại mới</button>
+      </div>
+
+      <div class="order-card">
+        <div class="order-card-head">
+          <div class="oc-id">Khiếu nại #KN-0087</div>
+          <div class="oc-head-right"><span class="status-badge" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-circle"></i>Chờ phản hồi</span></div>
+        </div>
+        <div class="order-card-body">
+          <div class="history-item" style="border:none;padding-top:0;">
+            <div class="hi-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-comment-dots"></i></div>
+            <div>
+              <div class="hi-title">Đơn #RS-20487 · Sản phẩm lỗi</div>
+              <div class="hi-sub">Người bán vừa phản hồi, đang chờ bạn xác nhận.</div>
+            </div>
+            <div class="hi-time">2 ngày trước</div>
+          </div>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#complaintModal"><i class="fa-regular fa-eye me-1"></i>Xem &amp; phản hồi</button>
+        </div>
+      </div>
+
+      <div class="section-heading mt-4">
+        <h6>Khiếu nại đã giải quyết</h6>
+      </div>
+      <div class="order-card">
+        <div class="order-card-body pb-0">
+          <div class="history-item">
+            <div class="hi-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-circle-check"></i></div>
+            <div>
+              <div class="hi-title">Khiếu nại #KN-0071 · Vận chuyển</div>
+              <div class="hi-sub">Đã giải quyết: hoàn phí vận chuyển 30.000đ.</div>
+            </div>
+            <div class="hi-time">12/06/2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: ĐÃ HOÀN THÀNH ============ -->
+    <section class="view-section" id="view-completed">
+      <div class="page-head">
+        <div>
+          <h1>Đơn hàng đã hoàn thành</h1>
+          <p>Các đơn hàng đã hoàn tất, bạn có thể mua lại hoặc khiếu nại nếu cần.</p>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="order-card-head">
+          <div class="oc-id">#RS-20487 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>28/06/2026</span></div>
+          <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: TechRefurb Store</div>
+          <div class="oc-head-right"><span class="status-badge st-completed"><i class="fa-solid fa-circle"></i>Đã hoàn thành</span></div>
+        </div>
+        <div class="order-card-body">
+          <div class="product-row">
+            <img src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=200&h=200&fit=crop" alt="Chuột Gaming Logitech G102">
+            <div class="flex-grow-1">
+              <div class="p-name">Chuột Gaming Logitech G102 Lightsync</div>
+              <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng</span></div>
+            </div>
+            <div><div class="p-price">490.000đ</div><div class="p-qty">x1</div></div>
+          </div>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Mua lại</button>
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#complaintModal"><i class="fa-solid fa-triangle-exclamation me-1"></i>Khiếu nại</button>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="order-card-head">
+          <div class="oc-id">#RS-20410 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>20/06/2026</span></div>
+          <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: GreenFix Repair</div>
+          <div class="oc-head-right"><span class="status-badge st-completed"><i class="fa-solid fa-circle"></i>Đã hoàn thành</span></div>
+        </div>
+        <div class="order-card-body">
+          <div class="product-row">
+            <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&h=200&fit=crop" alt="Bàn phím cơ Akko">
+            <div class="flex-grow-1">
+              <div class="p-name">Bàn phím cơ AKKO 3068B (đã sửa chữa)</div>
+              <div class="p-tags"><span class="p-tag repair"><i class="fa-solid fa-screwdriver-wrench"></i> Đã thay switch</span></div>
+            </div>
+            <div><div class="p-price">350.000đ</div><div class="p-qty">Dịch vụ sửa chữa</div></div>
+          </div>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Đặt lại dịch vụ</button>
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIEW: ĐÃ HỦY ============ -->
+    <section class="view-section" id="view-cancelled">
+      <div class="page-head">
+        <div>
+          <h1>Đơn hàng đã hủy</h1>
+          <p>Danh sách các đơn bạn hoặc người bán đã hủy.</p>
+        </div>
+      </div>
+      <div class="order-card">
+        <div class="order-card-head">
+          <div class="oc-id">#RS-20355 <i class="fa-solid fa-circle"></i><span class="oc-meta"><i class="fa-regular fa-calendar"></i>10/06/2026</span></div>
+          <div class="oc-meta"><i class="fa-store"></i>Cửa hàng: GreenFix Repair</div>
+          <div class="oc-head-right"><span class="status-badge st-cancelled"><i class="fa-solid fa-circle"></i>Đã hủy</span></div>
+        </div>
+        <div class="order-card-body">
+          <div class="product-row">
+            <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=200&h=200&fit=crop" alt="Bàn phím cơ">
+            <div class="flex-grow-1">
+              <div class="p-name">Bàn phím cơ AKKO 3068B</div>
+              <div class="p-tags"><span class="p-tag">Khách hàng hủy đơn</span></div>
+            </div>
+            <div><div class="p-price">1.050.000đ</div><div class="p-qty">x1</div></div>
+          </div>
+        </div>
+        <div class="order-card-summary">
+          <div class="sum-line"><span>Tổng cộng</span><span>1.050.000đ</span></div>
+        </div>
+        <div class="order-card-actions">
+          <button class="btn-pill primary"><i class="fa-solid fa-rotate me-1"></i>Mua lại</button>
+          <button class="btn-pill" data-bs-toggle="modal" data-bs-target="#detailModal"><i class="fa-regular fa-eye me-1"></i>Xem chi tiết</button>
+        </div>
+      </div>
+      <div class="empty-state">
+        <i class="fa-regular fa-folder-open"></i>
+        <h5>Chỉ có 1 đơn hàng đã hủy</h5>
+        <p class="mb-0">Bạn giữ tỉ lệ hủy đơn rất tốt!</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+<!-- ============= MODAL: ORDER DETAIL ============= -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chi tiết đơn hàng #RS-20548</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <div class="section-label">Người nhận</div>
+            <div class="fw-semibold">Nguyễn An</div>
+            <div class="text-secondary small">0901 800 001 · nguyenan@gmail.com</div>
+            <div class="text-secondary small">123 Đường Xanh, P. Bến Nghé, Q.1, TP.HCM</div>
+          </div>
+          <div class="col-sm-6">
+            <div class="section-label">Thanh toán</div>
+            <div class="fw-semibold">Ví MoMo</div>
+            <div class="text-secondary small">Mã đơn: #RS-20548 · Ngày đặt: 16/05/2025</div>
+            <span class="status-badge st-shipping mt-1"><i class="fa-solid fa-circle"></i>Đang giao</span>
+          </div>
+        </div>
+        <div class="section-label">Sản phẩm</div>
+        <div class="product-row">
+          <img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?w=200&h=200&fit=crop" alt="RAM Kingston Fury Beast">
+          <div class="flex-grow-1">
+            <div class="p-name">RAM Kingston Fury Beast 16GB DDR4 3200MHz</div>
+            <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng</span></div>
+          </div>
+          <div><div class="p-price">1.190.000đ</div><div class="p-qty">x1</div></div>
+        </div>
+        <div class="product-row">
+          <img src="https://images.unsplash.com/photo-1531492746076-161ba9bf9bcc?w=200&h=200&fit=crop" alt="Ổ cứng SSD Samsung">
+          <div class="flex-grow-1">
+            <div class="p-name">Ổ cứng SSD Samsung 970 EVO Plus 1TB NVMe M.2</div>
+            <div class="p-tags"><span class="p-tag warranty"><i class="fa-solid fa-shield-halved"></i> Bảo hành 24 tháng</span></div>
+          </div>
+          <div><div class="p-price">2.490.000đ</div><div class="p-qty">x1</div></div>
+        </div>
+        <div class="order-card-summary rounded-3 mt-3">
+          <div class="sum-line"><span>Tạm tính</span><span>3.680.000đ</span></div>
+          <div class="sum-line"><span>Phí vận chuyển</span><span>30.000đ</span></div>
+          <div class="sum-line"><span>Giảm giá</span><span>-50.000đ</span></div>
+          <div class="sum-line total"><span>Tổng cộng</span><span class="amt">3.660.000đ</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill"><i class="fa-solid fa-file-arrow-down me-1"></i>Tải hoá đơn</button>
+        <button class="btn-pill primary" data-bs-toggle="modal" data-bs-target="#trackingModal" data-bs-dismiss="modal"><i class="fa-solid fa-truck-fast me-1"></i>Theo dõi vận chuyển</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============= MODAL: DELIVERY TRACKING ============= -->
+<div class="modal fade" id="trackingModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Theo dõi vận chuyển · #RS-20548</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="track-info-card">
+          <div class="ti-row"><span>Mã vận đơn</span><span>GHN-88213045</span></div>
+          <div class="ti-row"><span>Đơn vị vận chuyển</span><span>Giao Hàng Nhanh</span></div>
+          <div class="ti-row"><span>Dự kiến giao</span><span>18/05/2025</span></div>
+          <div class="ti-row"><span>Vị trí hiện tại</span><span>Kho phân loại Q.3, TP.HCM</span></div>
+        </div>
+        <div class="map-placeholder mb-4">
+          <i class="fa-solid fa-location-dot"></i>
+          <span class="map-pin-ping"></span>
+          <div class="small fw-semibold">Bản đồ theo dõi vị trí</div>
+          <div class="small">(Khu vực Quận 3, TP. Hồ Chí Minh)</div>
+        </div>
+        <div class="section-label">Hành trình đơn hàng</div>
+        <ul class="tracking-timeline">
+          <li class="done">
+            <div class="t-dot"><i class="fa-solid fa-check"></i></div>
+            <div class="t-title">Đơn hàng đã đặt</div>
+            <div class="t-time">16/05/2025 · 09:12</div>
+            <div class="t-desc">Đơn hàng đã được tạo thành công.</div>
+          </li>
+          <li class="done">
+            <div class="t-dot"><i class="fa-solid fa-check"></i></div>
+            <div class="t-title">Đã xác nhận thanh toán</div>
+            <div class="t-time">16/05/2025 · 09:15</div>
+            <div class="t-desc">Thanh toán qua Ví MoMo thành công.</div>
+          </li>
+          <li class="done">
+            <div class="t-dot"><i class="fa-solid fa-check"></i></div>
+            <div class="t-title">Đang chuẩn bị hàng</div>
+            <div class="t-time">16/05/2025 · 14:40</div>
+            <div class="t-desc">Người bán đã đóng gói và bàn giao cho đơn vị vận chuyển.</div>
+          </li>
+          <li class="current">
+            <div class="t-dot"><i class="fa-solid fa-truck"></i></div>
+            <div class="t-title">Đang vận chuyển</div>
+            <div class="t-time">17/05/2025 · 08:05</div>
+            <div class="t-desc">Kiện hàng đang trên đường đến kho phân loại khu vực của bạn.</div>
+          </li>
+          <li>
+            <div class="t-dot"><i class="fa-solid fa-box"></i></div>
+            <div class="t-title">Đang giao hàng</div>
+            <div class="t-time">Dự kiến 18/05/2025</div>
+          </li>
+          <li>
+            <div class="t-dot"><i class="fa-solid fa-house"></i></div>
+            <div class="t-title">Giao hàng thành công</div>
+            <div class="t-time">Dự kiến 18/05/2025</div>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn-pill secondary"><i class="fa-regular fa-comment-dots me-1"></i>Liên hệ đơn vị vận chuyển</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============= MODAL: CANCEL CONFIRM ============= -->
+<div class="modal fade" id="cancelConfirmModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Hủy đơn hàng?</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-secondary mb-2">Bạn chỉ có thể hủy đơn hàng trước khi đơn được giao cho đơn vị vận chuyển. Vui lòng chọn lý do hủy đơn:</p>
+        <select class="form-select mb-2">
+          <option>Đổi ý, không muốn mua nữa</option>
+          <option>Muốn thay đổi địa chỉ / thông tin</option>
+          <option>Tìm được giá tốt hơn</option>
+          <option>Đặt nhầm sản phẩm</option>
+          <option>Lý do khác</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" data-bs-dismiss="modal">Quay lại</button>
+        <button class="btn-pill danger" data-bs-dismiss="modal"><i class="fa-solid fa-xmark me-1"></i>Xác nhận hủy đơn</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============= MODAL: REFUND ============= -->
+<div class="modal fade" id="refundModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Yêu cầu hoàn tiền · #RS-20402</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="section-label">Trạng thái xử lý</div>
+        <div class="refund-status-track">
+          <div class="rst-step active"><div class="rst-dot"><i class="fa-solid fa-file-circle-check"></i></div><div class="rst-lbl">Đã gửi</div></div>
+          <div class="rst-step active"><div class="rst-dot"><i class="fa-solid fa-magnifying-glass"></i></div><div class="rst-lbl">Đang xử lý</div></div>
+          <div class="rst-step"><div class="rst-dot"><i class="fa-solid fa-circle-check"></i></div><div class="rst-lbl">Đã duyệt</div></div>
+          <div class="rst-step"><div class="rst-dot"><i class="fa-solid fa-sack-dollar"></i></div><div class="rst-lbl">Đã hoàn tiền</div></div>
+        </div>
+        <hr class="my-4">
+        <div class="section-label">Tạo yêu cầu hoàn tiền mới</div>
+        <form id="refundForm">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Lý do hoàn tiền</label>
+            <select class="form-select">
+              <option>Sản phẩm không đúng mô tả</option>
+              <option>Sản phẩm bị lỗi</option>
+              <option>Kiện hàng bị hư hỏng</option>
+              <option>Thiếu sản phẩm / phụ kiện</option>
+              <option>Lý do khác</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Mô tả chi tiết</label>
+            <textarea class="form-control" rows="3" placeholder="Mô tả rõ tình trạng sản phẩm để chúng tôi xử lý nhanh hơn..."></textarea>
+          </div>
+          <div class="mb-1">
+            <label class="form-label small fw-semibold">Hình ảnh minh chứng</label>
+            <div class="upload-zone" id="refundUploadZone">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <div class="fw-semibold small">Nhấn để tải ảnh lên</div>
+              <div class="small">PNG, JPG tối đa 5MB mỗi ảnh</div>
+            </div>
+            <div class="upload-preview" id="refundPreview"></div>
+          </div>
+        </form>
+        <hr class="my-4">
+        <div class="section-label">Lịch sử yêu cầu</div>
+        <div class="history-item">
+          <div class="hi-ic" style="background:#f5f3ff;color:#6d28d9;"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div>
+            <div class="hi-title">Yêu cầu #RF-1088 đang được xử lý</div>
+            <div class="hi-sub">Tai nghe Bluetooth Sony WH-CH510 · 690.000đ</div>
+          </div>
+          <div class="hi-time">18/06/2026</div>
+        </div>
+        <div class="history-item">
+          <div class="hi-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div class="hi-title">Yêu cầu #RF-1092 đã được duyệt</div>
+            <div class="hi-sub">iPhone 11 64GB · Hoàn 850.000đ</div>
+          </div>
+          <div class="hi-time">05/07/2026</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn-pill primary" id="submitRefundBtn"><i class="fa-solid fa-paper-plane me-1"></i>Gửi yêu cầu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============= MODAL: COMPLAINT ============= -->
+<div class="modal fade" id="complaintModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Khiếu nại đơn hàng · #RS-20487</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="complaintForm">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Loại khiếu nại</label>
+            <select class="form-select">
+              <option>Người bán</option>
+              <option>Vận chuyển</option>
+              <option>Thanh toán</option>
+              <option>Dịch vụ sửa chữa</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Mô tả sự việc</label>
+            <textarea class="form-control" rows="3" placeholder="Mô tả chi tiết vấn đề bạn gặp phải..."></textarea>
+          </div>
+          <div class="mb-1">
+            <label class="form-label small fw-semibold">Bằng chứng đính kèm</label>
+            <div class="upload-zone" id="complaintUploadZone">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <div class="fw-semibold small">Nhấn để tải ảnh / video lên</div>
+              <div class="small">PNG, JPG, MP4 tối đa 20MB mỗi tệp</div>
+            </div>
+            <div class="upload-preview" id="complaintPreview"></div>
+          </div>
+        </form>
+        <hr class="my-4">
+        <div class="section-label">Lịch sử khiếu nại</div>
+        <div class="history-item">
+          <div class="hi-ic" style="background:#fffbeb;color:#b45309;"><i class="fa-solid fa-comment-dots"></i></div>
+          <div>
+            <div class="hi-title">Khiếu nại #KN-0087 · Sản phẩm lỗi</div>
+            <div class="hi-sub">Người bán vừa phản hồi, đang chờ bạn xác nhận.</div>
+          </div>
+          <div class="hi-time">2 ngày trước</div>
+        </div>
+        <div class="history-item">
+          <div class="hi-ic" style="background:var(--green-100);color:var(--green-700);"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div class="hi-title">Khiếu nại #KN-0071 · Vận chuyển</div>
+            <div class="hi-sub">Đã giải quyết: hoàn phí vận chuyển 30.000đ.</div>
+          </div>
+          <div class="hi-time">12/06/2026</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-pill" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn-pill primary" id="submitComplaintBtn"><i class="fa-solid fa-paper-plane me-1"></i>Gửi khiếu nại</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ============= TOAST ============= -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:1080;">
+  <div id="appToast" class="toast align-items-center border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body fw-semibold"><i class="fa-solid fa-circle-check me-2" style="color:var(--green-500);"></i><span id="toastMsg">Thao tác thành công!</span></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ---- View switching (sidebar navigation) ----
+  const viewSections = document.querySelectorAll('.view-section');
+  function refreshViewTriggers(){ return document.querySelectorAll('[data-view]'); }
+
+  function switchView(viewName){
+    viewSections.forEach(sec => {
+      sec.classList.toggle('active-view', sec.id === 'view-' + viewName);
+    });
+    refreshViewTriggers().forEach(el => {
+      if (el.tagName === 'A' || el.classList.contains('side-link')) {
+        el.classList.toggle('active', el.dataset.view === viewName);
+      }
+    });
+    // close mobile offcanvas if open
+    const offcanvasEl = document.getElementById('mobileSidebar');
+    const oc = bootstrap.Offcanvas.getInstance(offcanvasEl);
+    if (oc) oc.hide();
+    document.querySelector('main.main').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-view]');
+    if (!trigger) return;
+    e.preventDefault();
+    switchView(trigger.dataset.view);
+  });
+
+  // ---- Tab filtering (within Đơn hàng của tôi view) ----
+  const tabs = document.querySelectorAll('.order-tab');
+  const cards = document.querySelectorAll('#ordersList .order-card');
+  const emptyState = document.getElementById('emptyState');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.status === filter;
+        card.style.display = match ? '' : 'none';
+        if (match) visibleCount++;
+      });
+      emptyState.classList.toggle('d-none', visibleCount !== 0);
+    });
+  });
+
+  // ---- Toast helper ----
+  function showToast(msg) {
+    document.getElementById('toastMsg').textContent = msg;
+    const toastEl = document.getElementById('appToast');
+    toastEl.style.background = '#0f172a';
+    toastEl.style.color = '#fff';
+    new bootstrap.Toast(toastEl, {delay: 2600}).show();
+  }
+
+  // ---- Upload zones (demo, in-memory only) ----
+  function wireUpload(zoneId, previewId) {
+    const zone = document.getElementById(zoneId);
+    const preview = document.getElementById(previewId);
+    if (!zone) return;
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    input.style.display = 'none';
+    zone.appendChild(input);
+    zone.addEventListener('click', () => input.click());
+    input.addEventListener('change', () => {
+      [...input.files].forEach(file => {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.innerHTML = '<i class="fa-regular fa-image"></i><button type="button" class="rm">&times;</button>';
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.src = url;
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+        thumb.prepend(img);
+        thumb.querySelector('.rm').addEventListener('click', (e) => { e.stopPropagation(); thumb.remove(); });
+        preview.appendChild(thumb);
+      });
+      input.value = '';
+    });
+  }
+  wireUpload('refundUploadZone', 'refundPreview');
+  wireUpload('complaintUploadZone', 'complaintPreview');
+
+  // ---- Submit demo actions ----
+  document.getElementById('submitRefundBtn').addEventListener('click', () => {
+    bootstrap.Modal.getInstance(document.getElementById('refundModal'))?.hide();
+    showToast('Yêu cầu hoàn tiền đã được gửi thành công!');
+  });
+  document.getElementById('submitComplaintBtn').addEventListener('click', () => {
+    bootstrap.Modal.getInstance(document.getElementById('complaintModal'))?.hide();
+    showToast('Khiếu nại đã được gửi, chúng tôi sẽ phản hồi sớm!');
+  });
+</script>
+</body>
+</html>

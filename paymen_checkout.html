@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REshare | Thanh toán đơn hàng</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#16a34a;
+  --primary-dark:#128a3e;
+  --primary-light:#dcfce7;
+  --accent:#2563eb;
+  --accent-light:#dbeafe;
+  --bg:#f8fafc;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --border:#e2e8f0;
+  --radius:16px;
+  --shadow:0 1px 2px rgba(15,23,42,.04), 0 8px 24px -12px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;}
+
+/* ---------- Header ---------- */
+.top-nav{
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  padding:.7rem 0;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+.brand{
+  font-weight:800;
+  font-size:1.4rem;
+  color:var(--primary);
+  letter-spacing:-.02em;
+}
+.brand span{color:var(--ink);}
+.top-nav .nav-link{
+  color:var(--muted);
+  font-weight:500;
+  font-size:.925rem;
+  padding:.4rem .85rem !important;
+  border-radius:8px;
+}
+.top-nav .nav-link:hover{color:var(--primary);background:var(--primary-light);}
+.search-box{
+  background:var(--bg);
+  border-radius:999px;
+  border:1px solid var(--border);
+  padding:.5rem .5rem .5rem 1rem;
+}
+.search-box input{
+  border:none;background:transparent;outline:none;font-size:.9rem;width:220px;
+}
+.search-box button{
+  background:var(--primary);color:#fff;border:none;border-radius:999px;
+  width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+}
+.icon-btn{
+  position:relative;width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);color:var(--ink);border:1px solid var(--border);
+}
+.icon-btn .badge-dot{
+  position:absolute;top:-4px;right:-4px;background:var(--primary);
+  color:#fff;font-size:.65rem;border-radius:999px;padding:1px 5px;font-weight:700;
+  border:2px solid #fff;
+}
+.avatar-chip{
+  display:flex;align-items:center;gap:.5rem;padding:.25rem .6rem .25rem .25rem;
+  border-radius:999px;border:1px solid var(--border);
+}
+.avatar-chip img{width:32px;height:32px;border-radius:50%;object-fit:cover;}
+
+/* ---------- Page header ---------- */
+.page-title{font-weight:800;font-size:1.6rem;letter-spacing:-.02em;}
+.breadcrumb-mini{font-size:.85rem;color:var(--muted);}
+.breadcrumb-mini a{color:var(--muted);}
+.step-pill{
+  display:inline-flex;align-items:center;gap:.4rem;background:var(--primary-light);
+  color:var(--primary-dark);font-weight:600;font-size:.8rem;padding:.35rem .8rem;border-radius:999px;
+}
+
+/* ---------- Cards ---------- */
+.card-soft{
+  background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);
+  border:1px solid var(--border);padding:1.5rem;
+}
+.section-title{
+  font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:.6rem;margin-bottom:1.25rem;
+}
+.section-title .num{
+  width:28px;height:28px;border-radius:8px;background:var(--primary);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:800;
+}
+.form-label{font-size:.85rem;font-weight:600;color:var(--ink);}
+.form-control,.form-select{
+  border-radius:10px;border:1px solid var(--border);padding:.6rem .85rem;font-size:.9rem;
+}
+.form-control:focus,.form-select:focus{
+  border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-light);
+}
+.form-check-input:checked{background-color:var(--primary);border-color:var(--primary);}
+.form-check-input:focus{box-shadow:0 0 0 3px var(--primary-light);}
+
+/* ---------- Delivery option cards ---------- */
+.delivery-option{
+  border:2px solid var(--border);border-radius:14px;padding:1rem 1.1rem;cursor:pointer;
+  position:relative;height:100%;transition:.15s ease;background:#fff;
+}
+.delivery-option:hover{border-color:#bbf7d0;}
+.delivery-option.selected{
+  border-color:var(--primary);background:var(--primary-light);
+  box-shadow:0 0 0 3px rgba(22,163,74,.12);
+}
+.delivery-option .d-icon{
+  width:42px;height:42px;border-radius:10px;background:var(--primary-light);
+  color:var(--primary-dark);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.6rem;
+}
+.delivery-option.selected .d-icon{background:var(--primary);color:#fff;}
+.delivery-option .badge-recommend{
+  position:absolute;top:-10px;right:12px;background:var(--primary);color:#fff;
+  font-size:.68rem;font-weight:700;padding:.2rem .55rem;border-radius:999px;
+}
+.delivery-option h6{font-size:.92rem;font-weight:700;margin-bottom:.2rem;}
+.delivery-option p{font-size:.78rem;color:var(--muted);margin-bottom:.5rem;}
+.delivery-option .price{font-weight:700;font-size:.85rem;}
+.delivery-option .price.free{color:var(--primary-dark);}
+.delivery-option .radio-check{
+  position:absolute;top:12px;left:12px;width:18px;height:18px;border-radius:50%;
+  border:2px solid #cbd5e1;background:#fff;
+}
+.delivery-option.selected .radio-check{border-color:var(--primary);background:var(--primary);}
+.delivery-option.selected .radio-check::after{
+  content:'';display:block;width:6px;height:6px;background:#fff;border-radius:50%;margin:4px auto;
+}
+
+/* ---------- Payment tabs ---------- */
+.pay-tabs{
+  display:flex;gap:.5rem;background:var(--bg);padding:.35rem;border-radius:12px;margin-bottom:1.25rem;
+}
+.pay-tabs button{
+  flex:1;border:none;background:transparent;padding:.6rem 1rem;border-radius:9px;
+  font-weight:600;font-size:.88rem;color:var(--muted);transition:.15s;
+}
+.pay-tabs button.active{background:#fff;color:var(--primary-dark);box-shadow:var(--shadow);}
+
+.pay-method{
+  border:2px solid var(--border);border-radius:12px;padding:.85rem 1rem;
+  display:flex;align-items:center;gap:.85rem;cursor:pointer;margin-bottom:.65rem;transition:.15s;
+}
+.pay-method:hover{border-color:#bbf7d0;}
+.pay-method.selected{border-color:var(--primary);background:var(--primary-light);}
+.pay-method .pm-icon{
+  width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:1.05rem;flex-shrink:0;
+}
+.pm-cod{background:#fef3c7;color:#b45309;}
+.pm-momo{background:#fce7f3;color:#d6008a;}
+.pm-zalo{background:#dbeafe;color:#0068ff;}
+.pm-vnpay{background:#fee2e2;color:#d90429;}
+.pm-bank{background:#e0e7ff;color:#4338ca;}
+.pm-card{background:#f1f5f9;color:#334155;}
+.pay-method .pm-name{font-weight:600;font-size:.9rem;}
+.pay-method .pm-desc{font-size:.76rem;color:var(--muted);}
+.pay-method .pm-radio{
+  margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;
+}
+.pay-method.selected .pm-radio{border-color:var(--primary);background:var(--primary);position:relative;}
+.pay-method.selected .pm-radio::after{
+  content:'';position:absolute;inset:5px;background:#fff;border-radius:50%;
+}
+
+/* ---------- QR panel ---------- */
+.qr-panel{
+  border:1px dashed #bbf7d0;background:var(--primary-light);border-radius:14px;
+  padding:1.5rem;text-align:center;
+}
+.qr-box{
+  width:190px;height:190px;background:#fff;border-radius:12px;margin:0 auto 1rem;
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+.qr-meta{
+  background:#fff;border-radius:10px;padding:.9rem 1.1rem;text-align:left;font-size:.85rem;
+  border:1px solid var(--border);
+}
+.qr-meta .row-line{display:flex;justify-content:space-between;padding:.3rem 0;}
+.qr-meta .row-line span:first-child{color:var(--muted);}
+.qr-meta .row-line span:last-child{font-weight:600;}
+.status-waiting{
+  display:inline-flex;align-items:center;gap:.5rem;background:#fff7ed;color:#c2410c;
+  font-weight:600;font-size:.82rem;padding:.4rem .9rem;border-radius:999px;margin-top:.9rem;
+}
+.status-waiting .dot{
+  width:8px;height:8px;background:#f59e0b;border-radius:50%;animation:pulse 1.2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* ---------- Sidebar ---------- */
+.sidebar-sticky{position:sticky;top:90px;}
+.order-item{display:flex;gap:.75rem;padding:.8rem 0;border-bottom:1px solid var(--border);}
+.order-item:last-child{border-bottom:none;}
+.order-item img{
+  width:58px;height:58px;border-radius:10px;object-fit:cover;background:var(--bg);border:1px solid var(--border);
+}
+.order-item .name{font-weight:600;font-size:.85rem;line-height:1.3;}
+.order-item .price{font-weight:700;font-size:.85rem;color:var(--ink);}
+.order-item .qty{font-size:.78rem;color:var(--muted);}
+.tag-mini{
+  font-size:.68rem;font-weight:600;padding:.1rem .5rem;border-radius:6px;display:inline-block;margin-top:.2rem;
+}
+.tag-warranty{background:var(--accent-light);color:var(--accent);}
+.tag-repair{background:#fef3c7;color:#b45309;}
+
+.summary-row{display:flex;justify-content:space-between;font-size:.88rem;padding:.4rem 0;color:var(--muted);}
+.summary-row span:last-child{color:var(--ink);font-weight:600;}
+.summary-row.discount span:last-child{color:var(--primary-dark);}
+.summary-total{
+  display:flex;justify-content:space-between;align-items:center;padding-top:.9rem;margin-top:.5rem;
+  border-top:2px dashed var(--border);
+}
+.summary-total .label{font-weight:700;font-size:.95rem;}
+.summary-total .amount{font-weight:800;font-size:1.5rem;color:var(--primary-dark);}
+
+.voucher-input{
+  display:flex;gap:.5rem;
+}
+.voucher-input input{flex:1;}
+.btn-primary-brand{
+  background:var(--primary);border-color:var(--primary);font-weight:700;
+}
+.btn-primary-brand:hover{background:var(--primary-dark);border-color:var(--primary-dark);}
+.btn-pay-big{
+  width:100%;padding:.95rem;border-radius:12px;font-size:1.05rem;font-weight:700;
+  background:var(--primary);border:none;color:#fff;transition:.15s;
+  box-shadow:0 8px 20px -8px rgba(22,163,74,.6);
+}
+.btn-pay-big:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:0 12px 24px -8px rgba(22,163,74,.7);}
+.btn-pay-big:disabled{opacity:.55;transform:none;box-shadow:none;cursor:not-allowed;}
+
+.gc-toggle{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg);border-radius:10px;padding:.65rem .9rem;margin-top:.5rem;
+}
+.gc-toggle .gc-label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;font-weight:600;}
+.gc-toggle .coin-icon{color:#eab308;}
+
+.form-check.form-switch .form-check-input{width:2.6em;height:1.4em;}
+
+/* Success modal */
+.success-icon{
+  width:74px;height:74px;border-radius:50%;background:var(--primary-light);
+  display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:2rem;margin:0 auto 1rem;
+}
+
+@media (max-width:991px){
+  .sidebar-sticky{position:static;margin-top:1.5rem;}
+  .search-box{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<nav class="top-nav">
+  <div class="container-xxl d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div class="d-flex align-items-center gap-4">
+      <a href="#" class="brand">RE<span>share</span></a>
+      <ul class="nav d-none d-lg-flex">
+        <li class="nav-item"><a class="nav-link" href="#">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Marketplace</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Sửa chữa &amp; tái chế</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Môi trường</a></li>
+      </ul>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <div class="search-box d-flex align-items-center">
+        <input type="text" placeholder="Tìm kiếm sản phẩm, dịch vụ...">
+        <button><i class="fa-solid fa-magnifying-glass fa-xs"></i></button>
+      </div>
+      <button class="icon-btn"><i class="fa-solid fa-cart-shopping"></i><span class="badge-dot">5</span></button>
+      <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="badge-dot">2</span></button>
+      <div class="avatar-chip">
+        <img src="https://i.pravatar.cc/64?img=12" alt="avatar">
+        <span class="fw-semibold small d-none d-md-inline">Nguyễn An</span>
+        <i class="fa-solid fa-chevron-down fa-xs text-muted d-none d-md-inline"></i>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container-xxl py-4">
+
+  <div class="breadcrumb-mini mb-2"><a href="#">Trang chủ</a> &nbsp;/&nbsp; <a href="#">Giỏ hàng</a> &nbsp;/&nbsp; <span class="text-dark fw-semibold">Thanh toán</span></div>
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+    <div>
+      <h1 class="page-title mb-1">Thanh toán đơn hàng</h1>
+      <div class="text-muted small">Hoàn tất thông tin bên dưới để xác nhận đơn hàng của bạn</div>
+    </div>
+    <span class="step-pill"><i class="fa-solid fa-circle-check"></i> Bước 2/2 — Thanh toán</span>
+  </div>
+
+  <form id="checkoutForm">
+  <div class="row g-4">
+    <!-- ============= LEFT COLUMN ============= -->
+    <div class="col-lg-8">
+
+      <!-- SECTION 1: CONTACT -->
+      <div class="card-soft mb-4">
+        <div class="section-title"><span class="num">1</span> Thông tin liên hệ</div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" name="fullname" placeholder="Nguyễn Văn An" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Số điện thoại</label>
+            <input type="tel" class="form-control" name="phone" placeholder="0901 234 567" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" placeholder="[email protected]" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Địa chỉ chi tiết</label>
+            <input type="text" class="form-control" name="address_detail" placeholder="Số nhà, tên đường" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Tỉnh / Thành phố</label>
+            <select class="form-select" required>
+              <option value="" selected disabled>Chọn tỉnh/thành</option>
+              <option>TP. Hồ Chí Minh</option>
+              <option>Hà Nội</option>
+              <option>Đà Nẵng</option>
+              <option>Cần Thơ</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Quận / Huyện</label>
+            <select class="form-select" required>
+              <option value="" selected disabled>Chọn quận/huyện</option>
+              <option>Quận 1</option>
+              <option>Quận 3</option>
+              <option>TP. Thủ Đức</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Phường / Xã</label>
+            <select class="form-select" required>
+              <option value="" selected disabled>Chọn phường/xã</option>
+              <option>Phường Bến Nghé</option>
+              <option>Phường Bến Thành</option>
+              <option>Phường An Phú</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="checkbox" id="saveInfo" checked>
+          <label class="form-check-label small text-muted" for="saveInfo">Lưu thông tin cho lần sau</label>
+        </div>
+      </div>
+
+      <!-- SECTION 2: DELIVERY -->
+      <div class="card-soft mb-4">
+        <div class="section-title"><span class="num">2</span> Phương thức gửi hàng</div>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="delivery-option selected" data-delivery="tech" data-fee="0">
+              <span class="badge-recommend">Đề xuất</span>
+              <span class="radio-check"></span>
+              <div class="d-icon"><i class="fa-solid fa-user-gear"></i></div>
+              <h6>Kỹ thuật viên đến tận nơi</h6>
+              <p>Kỹ thuật viên đến địa chỉ của bạn để nhận thiết bị.</p>
+              <div class="price free">Miễn phí</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="delivery-option" data-delivery="ship" data-fee="30000">
+              <span class="radio-check"></span>
+              <div class="d-icon"><i class="fa-solid fa-truck-fast"></i></div>
+              <h6>Gửi qua đơn vị vận chuyển</h6>
+              <p>Đơn vị vận chuyển sẽ đến lấy hàng.</p>
+              <div class="price">30.000đ</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="delivery-option" data-delivery="store" data-fee="0">
+              <span class="radio-check"></span>
+              <div class="d-icon"><i class="fa-solid fa-store"></i></div>
+              <h6>Mang đến cửa hàng</h6>
+              <p>Khách hàng mang trực tiếp đến cửa hàng.</p>
+              <div class="price free">Miễn phí</div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-3 mt-1">
+          <div class="col-md-6">
+            <label class="form-label">Ngày mong muốn</label>
+            <input type="date" class="form-control" id="preferredDate">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Khung giờ mong muốn</label>
+            <select class="form-select" id="preferredTime">
+              <option>08:00 - 10:00</option>
+              <option>10:00 - 12:00</option>
+              <option>13:00 - 15:00</option>
+              <option>15:00 - 17:00</option>
+              <option>17:00 - 19:00</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: PAYMENT -->
+      <div class="card-soft mb-4">
+        <div class="section-title"><span class="num">3</span> Phương thức thanh toán</div>
+
+        <div class="pay-tabs">
+          <button type="button" class="active" data-tab="product">Thanh toán sản phẩm · 4.170.000đ</button>
+          <button type="button" data-tab="repair">Đặt cọc sửa chữa · 2.720.000đ</button>
+        </div>
+
+        <div id="pay-methods">
+          <div class="pay-method selected" data-method="cod">
+            <div class="pm-icon pm-cod"><i class="fa-solid fa-money-bill-wave"></i></div>
+            <div>
+              <div class="pm-name">Thanh toán khi nhận hàng (COD)</div>
+              <div class="pm-desc">Thanh toán bằng tiền mặt khi nhận thiết bị</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+          <div class="pay-method" data-method="momo">
+            <div class="pm-icon pm-momo"><i class="fa-solid fa-wallet"></i></div>
+            <div>
+              <div class="pm-name">Ví MoMo</div>
+              <div class="pm-desc">Quét mã QR để thanh toán qua ứng dụng MoMo</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+          <div class="pay-method" data-method="zalopay">
+            <div class="pm-icon pm-zalo"><i class="fa-solid fa-qrcode"></i></div>
+            <div>
+              <div class="pm-name">ZaloPay</div>
+              <div class="pm-desc">Quét mã QR để thanh toán qua ZaloPay</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+          <div class="pay-method" data-method="vnpay">
+            <div class="pm-icon pm-vnpay"><i class="fa-solid fa-building-columns"></i></div>
+            <div>
+              <div class="pm-name">VNPay</div>
+              <div class="pm-desc">Thanh toán qua cổng VNPay</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+          <div class="pay-method" data-method="banking">
+            <div class="pm-icon pm-bank"><i class="fa-solid fa-university"></i></div>
+            <div>
+              <div class="pm-name">Internet Banking</div>
+              <div class="pm-desc">Chuyển khoản trực tuyến qua ngân hàng</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+          <div class="pay-method" data-method="card">
+            <div class="pm-icon pm-card"><i class="fa-regular fa-credit-card"></i></div>
+            <div>
+              <div class="pm-name">Visa / Mastercard</div>
+              <div class="pm-desc">Thanh toán bằng thẻ tín dụng/ghi nợ quốc tế</div>
+            </div>
+            <span class="pm-radio"></span>
+          </div>
+        </div>
+
+        <!-- QR PANEL -->
+        <div id="qrPanel" class="qr-panel mt-3 d-none">
+          <div class="qr-box">
+            <svg width="150" height="150" viewBox="0 0 150 150">
+              <rect width="150" height="150" fill="#fff"/>
+              <g fill="#0f172a">
+                <rect x="10" y="10" width="30" height="30"/><rect x="18" y="18" width="14" height="14" fill="#fff"/>
+                <rect x="110" y="10" width="30" height="30"/><rect x="118" y="18" width="14" height="14" fill="#fff"/>
+                <rect x="10" y="110" width="30" height="30"/><rect x="18" y="118" width="14" height="14" fill="#fff"/>
+                <rect x="50" y="20" width="8" height="8"/><rect x="66" y="20" width="8" height="8"/><rect x="82" y="30" width="8" height="8"/>
+                <rect x="50" y="50" width="8" height="8"/><rect x="66" y="58" width="8" height="8"/><rect x="90" y="50" width="8" height="8"/>
+                <rect x="60" y="70" width="8" height="8"/><rect x="76" y="80" width="8" height="8"/><rect x="100" y="70" width="8" height="8"/>
+                <rect x="50" y="100" width="8" height="8"/><rect x="70" y="110" width="8" height="8"/><rect x="90" y="100" width="8" height="8"/>
+                <rect x="110" y="90" width="8" height="8"/><rect x="120" y="110" width="8" height="8"/><rect x="100" y="120" width="8" height="8"/>
+              </g>
+            </svg>
+          </div>
+          <div class="qr-meta">
+            <div class="row-line"><span>Mã đơn hàng</span><span id="qrOrderId">RS-2026-88213</span></div>
+            <div class="row-line"><span>Số tiền</span><span id="qrAmount" class="text-success">4.170.000đ</span></div>
+            <div class="row-line"><span>Hết hạn sau</span><span id="qrTimer" class="text-danger">14:59</span></div>
+          </div>
+          <div class="text-center">
+            <span class="status-waiting"><span class="dot"></span> Đang chờ thanh toán...</span>
+          </div>
+          <p class="text-muted small mt-3 mb-0">Mở ứng dụng và quét mã QR để hoàn tất thanh toán. Đơn hàng sẽ được xác nhận tự động ngay khi giao dịch thành công.</p>
+        </div>
+
+        <div class="form-check mt-4">
+          <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+          <label class="form-check-label small" for="agreeTerms">
+            Tôi đã đọc và đồng ý với <a href="#" class="fw-semibold">Điều khoản sử dụng</a> của REshare
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============= RIGHT SIDEBAR ============= -->
+    <div class="col-lg-4">
+      <div class="sidebar-sticky">
+        <div class="card-soft mb-3">
+          <div class="section-title mb-3"><i class="fa-solid fa-receipt text-success"></i> Danh sách đơn hàng</div>
+
+          <div class="fw-semibold small text-muted mb-1">SẢN PHẨM MUA BÁN (3)</div>
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1591405351990-4726e331f141?w=120&h=120&fit=crop" alt="RAM">
+            <div class="flex-grow-1">
+              <div class="name">RAM Kingston Fury Beast 16GB (8GBx2) DDR4</div>
+              <div class="qty">SL: 1</div>
+              <span class="tag-mini tag-warranty">Bảo hành 36 tháng</span>
+            </div>
+            <div class="price">1.190.000đ</div>
+          </div>
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=120&h=120&fit=crop" alt="SSD">
+            <div class="flex-grow-1">
+              <div class="name">Ổ cứng SSD Samsung 970 EVO Plus 1TB</div>
+              <div class="qty">SL: 1</div>
+              <span class="tag-mini tag-warranty">Bảo hành 60 tháng</span>
+            </div>
+            <div class="price">2.490.000đ</div>
+          </div>
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1527814050087-3793815479db?w=120&h=120&fit=crop" alt="Mouse">
+            <div class="flex-grow-1">
+              <div class="name">Chuột Gaming Logitech G102 Lightsync</div>
+              <div class="qty">SL: 1</div>
+              <span class="tag-mini tag-warranty">Bảo hành 24 tháng</span>
+            </div>
+            <div class="price">490.000đ</div>
+          </div>
+
+          <div class="fw-semibold small text-muted mb-1 mt-3">YÊU CẦU SỬA CHỮA (2)</div>
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=120&h=120&fit=crop" alt="Laptop">
+            <div class="flex-grow-1">
+              <div class="name">Laptop Asus TUF Gaming F15 FX506LH</div>
+              <div class="qty">Thay keo tản nhiệt + Thay pin</div>
+              <span class="tag-mini tag-repair">Sửa chữa</span>
+            </div>
+            <div class="price">1.870.000đ</div>
+          </div>
+          <div class="order-item">
+            <img src="https://images.unsplash.com/photo-1592286927505-1def25115558?w=120&h=120&fit=crop" alt="iPhone">
+            <div class="flex-grow-1">
+              <div class="name">iPhone 11 64GB</div>
+              <div class="qty">Thay pin + Vệ sinh máy</div>
+              <span class="tag-mini tag-repair">Sửa chữa</span>
+            </div>
+            <div class="price">850.000đ</div>
+          </div>
+        </div>
+
+        <div class="card-soft">
+          <div class="section-title mb-3"><i class="fa-solid fa-tags text-success"></i> Tổng quan đơn hàng</div>
+
+          <div class="mb-3">
+            <label class="form-label">Mã giảm giá</label>
+            <div class="voucher-input">
+              <input type="text" class="form-control" id="voucherInput" placeholder="Nhập mã voucher">
+              <button type="button" class="btn btn-primary-brand text-white px-3" id="applyVoucherBtn">Áp dụng</button>
+            </div>
+            <div id="voucherMsg" class="small mt-1"></div>
+          </div>
+
+          <div class="gc-toggle">
+            <span class="gc-label"><i class="fa-solid fa-coins coin-icon"></i> Dùng Green Coin (120 xu = 12.000đ)</span>
+            <div class="form-check form-switch mb-0">
+              <input class="form-check-input" type="checkbox" role="switch" id="greenCoinToggle">
+            </div>
+          </div>
+
+          <hr class="my-3">
+
+          <div class="summary-row"><span>Tạm tính sản phẩm</span><span id="sumProduct">4.170.000đ</span></div>
+          <div class="summary-row"><span>Chi phí sửa chữa (dự kiến)</span><span id="sumRepair">2.720.000đ</span></div>
+          <div class="summary-row"><span>Phí vận chuyển</span><span id="sumShip">Miễn phí</span></div>
+          <div class="summary-row discount d-none" id="sumDiscountRow"><span>Giảm giá voucher</span><span id="sumDiscount">-0đ</span></div>
+          <div class="summary-row discount d-none" id="sumGcRow"><span>Green Coin</span><span id="sumGc">-0đ</span></div>
+
+          <div class="summary-total">
+            <span class="label">Tổng thanh toán</span>
+            <span class="amount" id="grandTotal">6.890.000đ</span>
+          </div>
+
+          <button type="submit" class="btn-pay-big mt-3" id="payBtn">
+            <i class="fa-solid fa-lock me-2"></i>Thanh toán
+          </button>
+          <p class="text-muted text-center small mt-2 mb-0">Bằng việc đặt hàng, bạn đồng ý với Điều khoản &amp; Chính sách bảo mật của REshare</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+<!-- ================ SUCCESS MODAL ================ -->
+<div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:20px;border:none;">
+      <div class="modal-body text-center p-4 p-md-5">
+        <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+        <h4 class="fw-bold mb-2">Đặt hàng thành công!</h4>
+        <p class="text-muted mb-1">Mã đơn hàng của bạn là <span class="fw-semibold text-dark" id="successOrderId">RS-2026-88213</span></p>
+        <p class="text-muted small">Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất để xác nhận đơn hàng.</p>
+        <button class="btn btn-primary-brand text-white w-100 py-2 mt-3" data-bs-dismiss="modal">Về trang chủ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+(function(){
+  // ---------- State ----------
+  const PRODUCT_SUBTOTAL = 4170000;
+  const REPAIR_SUBTOTAL = 2720000;
+  let deliveryFee = 0;
+  let discountAmount = 0;
+  let greenCoinAmount = 0;
+  let activeTab = 'product'; // product | repair
+  let selectedMethod = 'cod';
+
+  const fmt = (n) => n.toLocaleString('vi-VN') + 'đ';
+
+  // ---------- Delivery selection ----------
+  const deliveryOptions = document.querySelectorAll('.delivery-option');
+  deliveryOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      deliveryOptions.forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      deliveryFee = parseInt(opt.dataset.fee, 10);
+      updateSummary();
+    });
+  });
+
+  // ---------- Payment tabs ----------
+  const tabButtons = document.querySelectorAll('.pay-tabs button');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTab = btn.dataset.tab;
+      updateSummary();
+    });
+  });
+
+  // ---------- Payment method selection ----------
+  const payMethods = document.querySelectorAll('.pay-method');
+  const qrPanel = document.getElementById('qrPanel');
+  const qrAmount = document.getElementById('qrAmount');
+
+  function refreshQrPanel(){
+    if(selectedMethod === 'cod'){
+      qrPanel.classList.add('d-none');
+    } else {
+      qrPanel.classList.remove('d-none');
+      const base = activeTab === 'product' ? PRODUCT_SUBTOTAL : REPAIR_SUBTOTAL;
+      qrAmount.textContent = fmt(base);
+    }
+  }
+
+  payMethods.forEach(m => {
+    m.addEventListener('click', () => {
+      payMethods.forEach(x => x.classList.remove('selected'));
+      m.classList.add('selected');
+      selectedMethod = m.dataset.method;
+      refreshQrPanel();
+    });
+  });
+
+  // ---------- QR countdown ----------
+  let timeLeft = 15*60;
+  const qrTimerEl = document.getElementById('qrTimer');
+  setInterval(() => {
+    if(qrPanel.classList.contains('d-none')) return;
+    if(timeLeft <= 0) return;
+    timeLeft--;
+    const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
+    const s = String(timeLeft%60).padStart(2,'0');
+    qrTimerEl.textContent = `${m}:${s}`;
+  }, 1000);
+
+  // ---------- Voucher ----------
+  const validVouchers = {
+    'RESHARE10': 0.10,
+    'GREEN50K': 50000,
+    'WELCOME5': 0.05
+  };
+  const voucherInput = document.getElementById('voucherInput');
+  const voucherMsg = document.getElementById('voucherMsg');
+  const applyVoucherBtn = document.getElementById('applyVoucherBtn');
+
+  applyVoucherBtn.addEventListener('click', () => {
+    const code = voucherInput.value.trim().toUpperCase();
+    if(!code){
+      voucherMsg.innerHTML = '<span class="text-danger">Vui lòng nhập mã voucher.</span>';
+      discountAmount = 0;
+      updateSummary();
+      return;
+    }
+    if(validVouchers[code] !== undefined){
+      const base = PRODUCT_SUBTOTAL + REPAIR_SUBTOTAL;
+      const val = validVouchers[code];
+      discountAmount = val < 1 ? Math.round(base * val) : val;
+      voucherMsg.innerHTML = `<span class="text-success"><i class="fa-solid fa-circle-check"></i> Áp dụng mã "${code}" thành công! Giảm ${fmt(discountAmount)}</span>`;
+    } else {
+      discountAmount = 0;
+      voucherMsg.innerHTML = '<span class="text-danger"><i class="fa-solid fa-circle-xmark"></i> Mã voucher không hợp lệ hoặc đã hết hạn.</span>';
+    }
+    updateSummary();
+  });
+
+  // ---------- Green Coin ----------
+  const greenCoinToggle = document.getElementById('greenCoinToggle');
+  greenCoinToggle.addEventListener('change', () => {
+    greenCoinAmount = greenCoinToggle.checked ? 12000 : 0;
+    updateSummary();
+  });
+
+  // ---------- Summary calculation ----------
+  function updateSummary(){
+    document.getElementById('sumProduct').textContent = fmt(PRODUCT_SUBTOTAL);
+    document.getElementById('sumRepair').textContent = fmt(REPAIR_SUBTOTAL);
+    document.getElementById('sumShip').textContent = deliveryFee === 0 ? 'Miễn phí' : fmt(deliveryFee);
+
+    const discountRow = document.getElementById('sumDiscountRow');
+    const gcRow = document.getElementById('sumGcRow');
+
+    if(discountAmount > 0){
+      discountRow.classList.remove('d-none');
+      document.getElementById('sumDiscount').textContent = '-' + fmt(discountAmount);
+    } else {
+      discountRow.classList.add('d-none');
+    }
+
+    if(greenCoinAmount > 0){
+      gcRow.classList.remove('d-none');
+      document.getElementById('sumGc').textContent = '-' + fmt(greenCoinAmount);
+    } else {
+      gcRow.classList.add('d-none');
+    }
+
+    const total = Math.max(0, PRODUCT_SUBTOTAL + REPAIR_SUBTOTAL + deliveryFee - discountAmount - greenCoinAmount);
+    document.getElementById('grandTotal').textContent = fmt(total);
+
+    refreshQrPanel();
+  }
+
+  // ---------- Form submit / validation ----------
+  const form = document.getElementById('checkoutForm');
+  const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if(!form.checkValidity()){
+      form.classList.add('was-validated');
+      const firstInvalid = form.querySelector(':invalid');
+      if(firstInvalid) firstInvalid.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    const agree = document.getElementById('agreeTerms');
+    if(!agree.checked){
+      agree.classList.add('is-invalid');
+      agree.scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+    agree.classList.remove('is-invalid');
+
+    const orderId = 'RS-2026-' + Math.floor(10000 + Math.random()*89999);
+    document.getElementById('successOrderId').textContent = orderId;
+    successModal.show();
+  });
+
+  // init
+  updateSummary();
+})();
+</script>
+</body>
+</html>
